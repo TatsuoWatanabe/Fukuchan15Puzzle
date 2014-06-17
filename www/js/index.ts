@@ -247,8 +247,8 @@ var app = {
             var puzzle = new FifteenPuzzle(canvas);
             var reset = () => { 
                 var imgDir = ((no: string) => 'img/' + (
-                    (no === '3') ? 'fukuko03' :
-                    (no === '2') ? 'fukuko02' : 'fukuko01'
+                    (no === '3') ? 'fukuchan03' :
+                    (no === '2') ? 'fukuchan02' : 'fukuchan01'
                 ) + '/')($('#selectedImage').val());
                 var imgSrc = ((w: number) => imgDir + (
                     (w >= 1200) ? '1200.jpg' :

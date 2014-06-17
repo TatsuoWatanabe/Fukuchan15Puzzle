@@ -281,7 +281,7 @@ var app = {
             var puzzle = new FifteenPuzzle(canvas);
             var reset = function () {
                 var imgDir = (function (no) {
-                    return 'img/' + ((no === '3') ? 'fukuko03' : (no === '2') ? 'fukuko02' : 'fukuko01') + '/';
+                    return 'img/' + ((no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (w) {
                     return imgDir + ((w >= 1200) ? '1200.jpg' : (w >= 800) ? '800.jpg' : (w >= 600) ? '600.jpg' : '480.jpg');
