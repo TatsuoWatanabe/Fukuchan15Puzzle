@@ -110,7 +110,7 @@ class FifteenPuzzle {
 
             if (showNumber && !block.isBlank) {
                 // ブロック番号を描画する
-                var fontSize = this.blockWidth / 3;
+                var fontSize = Math.floor(this.blockWidth / 3);
                 this.ctx.fillStyle = 'white';
                 this.ctx.font = 'bold ' + String(fontSize) + 'px Arial';
                 this.ctx.fillText(block.label,

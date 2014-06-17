@@ -128,7 +128,7 @@ var FifteenPuzzle = (function () {
 
             if (showNumber && !block.isBlank) {
                 // ブロック番号を描画する
-                var fontSize = _this.blockWidth / 3;
+                var fontSize = Math.floor(_this.blockWidth / 3);
                 _this.ctx.fillStyle = 'white';
                 _this.ctx.font = 'bold ' + String(fontSize) + 'px Arial';
                 _this.ctx.fillText(block.label, desPoint.x + (_this.blockWidth - fontSize) / 2, desPoint.y + (_this.blockHeight + fontSize / 2) / 2);
