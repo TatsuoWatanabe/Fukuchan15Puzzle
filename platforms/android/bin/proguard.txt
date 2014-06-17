@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:6
+-keep class jp.tatsuo.watanabe.fukuchan15puzzle.Fukuchan15Puzzle { <init>(...); }
+
