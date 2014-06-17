@@ -243,16 +243,19 @@ var app = {
     initialize: function () {
         this.bindEvents();
         $(() => {
-            var imgSrc = ((w: number) => 'img/' + (
-                (w >= 1200) ? 'fukuko1200x1200.jpg' :
-                (w >= 900) ? 'fukuko900x900.jpg' :
-                (w >= 600) ? 'fukuko600x600.jpg' : 'fukuko300x300.jpg'
-            ))(window.innerWidth);
-
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas);
-            var reset = () => {
-                puzzle.initGame(imgSrc, $('#puzzle-size').val());
+            var reset = () => { 
+                var imgDir = ((no: string) => 'img/' + (
+                    (no === '3') ? 'fukuko03' :
+                    (no === '2') ? 'fukuko02' : 'fukuko01'
+                ) + '/')($('#selectedImage').val());
+                var imgSrc = ((w: number) => imgDir + (
+                    (w >= 1200) ? '1200.jpg' :
+                    (w >= 800) ? '800.jpg' :
+                    (w >= 600) ? '600.jpg' : '480.jpg'
+                ))(window.innerWidth);
+                puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
             $('#btnReset').on('click', () => {
                 reset();

@@ -277,14 +277,16 @@ var app = {
     initialize: function () {
         this.bindEvents();
         $(function () {
-            var imgSrc = (function (w) {
-                return 'img/' + ((w >= 1200) ? 'fukuko1200x1200.jpg' : (w >= 900) ? 'fukuko900x900.jpg' : (w >= 600) ? 'fukuko600x600.jpg' : 'fukuko300x300.jpg');
-            })(window.innerWidth);
-
             var canvas = document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas);
             var reset = function () {
-                puzzle.initGame(imgSrc, $('#puzzle-size').val());
+                var imgDir = (function (no) {
+                    return 'img/' + ((no === '3') ? 'fukuko03' : (no === '2') ? 'fukuko02' : 'fukuko01') + '/';
+                })($('#selectedImage').val());
+                var imgSrc = (function (w) {
+                    return imgDir + ((w >= 1200) ? '1200.jpg' : (w >= 800) ? '800.jpg' : (w >= 600) ? '600.jpg' : '480.jpg');
+                })(window.innerWidth);
+                puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
             $('#btnReset').on('click', function () {
                 reset();
