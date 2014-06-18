@@ -205,7 +205,7 @@ var FifteenPuzzle = (function () {
     /// クリアしたかどうかをチェックします。
     FifteenPuzzle.prototype.checkClear = function () {
         var isCleared = this.blocks.every(function (block) {
-            return block.isCorrect || block.isBlank;
+            return block.isCorrect;
         });
         if (isCleared) {
             var m = moment();
