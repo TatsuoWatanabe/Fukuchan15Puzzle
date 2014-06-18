@@ -40,7 +40,7 @@ class FifteenPuzzle {
     private initMoment: Moment;
     private blockWidth: number;
     private blockHeight: number;
-    private blocks: Block[] = [];
+    private blocks: Block[];
     private blankBgColor: string;
     private isLocked = false;
     private UDLR = [
@@ -76,6 +76,7 @@ class FifteenPuzzle {
             this.ctx.drawImage(this.image, 10, 10, this.image.width, this.image.height);
             this.isLocked = true;
             // パズルのブロックを作成
+            this.blocks = [];
             for (var i = 0; i < this.numBlocks; i++) {
                 // 末尾(右下)を空きブロックとする
                 var isBlank = (i === this.numBlocks - 1);
@@ -245,7 +246,7 @@ var app = {
         $(() => {
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas);
-            var reset = () => { 
+            var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
                     (no === '3') ? 'fukuchan03' :
                     (no === '2') ? 'fukuchan02' : 'fukuchan01'
