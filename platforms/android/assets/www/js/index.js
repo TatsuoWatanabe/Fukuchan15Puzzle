@@ -55,7 +55,6 @@ var Block = (function () {
 var FifteenPuzzle = (function () {
     function FifteenPuzzle(canvas) {
         this.canvas = canvas;
-        this.blocks = [];
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -92,6 +91,8 @@ var FifteenPuzzle = (function () {
             _this.ctx.drawImage(_this.image, 10, 10, _this.image.width, _this.image.height);
             _this.isLocked = true;
 
+            // パズルのブロックを作成
+            _this.blocks = [];
             for (var i = 0; i < _this.numBlocks; i++) {
                 // 末尾(右下)を空きブロックとする
                 var isBlank = (i === _this.numBlocks - 1);
@@ -128,7 +129,7 @@ var FifteenPuzzle = (function () {
 
             if (showNumber && !block.isBlank) {
                 // ブロック番号を描画する
-                var fontSize = _this.blockWidth / 3;
+                var fontSize = Math.floor(_this.blockWidth / 3);
                 _this.ctx.fillStyle = 'white';
                 _this.ctx.font = 'bold ' + String(fontSize) + 'px Arial';
                 _this.ctx.fillText(block.label, desPoint.x + (_this.blockWidth - fontSize) / 2, desPoint.y + (_this.blockHeight + fontSize / 2) / 2);
