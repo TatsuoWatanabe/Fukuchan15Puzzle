@@ -181,7 +181,7 @@ class FifteenPuzzle {
 
     /// クリアしたかどうかをチェックします。
     private checkClear() {
-        var isCleared = this.blocks.every(block => block.isCorrect || block.isBlank);
+        var isCleared = this.blocks.every(block => block.isCorrect);
         if (isCleared) {
             var m = moment();
             var min = m.diff(this.initMoment, 'minutes');

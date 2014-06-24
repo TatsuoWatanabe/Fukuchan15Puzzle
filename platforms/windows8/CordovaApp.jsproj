@@ -1,0 +1,765 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|AnyCPU">
+            <Configuration>Debug</Configuration>
+            <Platform>AnyCPU</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|ARM">
+            <Configuration>Debug</Configuration>
+            <Platform>ARM</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x86">
+            <Configuration>Debug</Configuration>
+            <Platform>x86</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|AnyCPU">
+            <Configuration>Release</Configuration>
+            <Platform>AnyCPU</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|ARM">
+            <Configuration>Release</Configuration>
+            <Platform>ARM</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x86">
+            <Configuration>Release</Configuration>
+            <Platform>x86</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>efffab2f-bfc5-4eda-b545-45ef4995f55a</ProjectGuid>
+    </PropertyGroup>
+    <PropertyGroup Label="Configuration">
+        <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0'">
+        <VisualStudioVersion>12.0</VisualStudioVersion>
+    </PropertyGroup>
+    <Import Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).Default.props" />
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).props" />
+    <PropertyGroup>
+        <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+        <TargetPlatformVersion>8.1</TargetPlatformVersion>
+        <DefaultLanguage>en-US</DefaultLanguage>
+        <PackageCertificateKeyFile>CordovaApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <AppxManifest Include="package.appxmanifest">
+            <SubType>Designer</SubType>
+        </AppxManifest>
+        <Content Include="images\logo.png" />
+        <Content Include="images\smalllogo.png" />
+        <Content Include="images\splashscreen.png" />
+        <Content Include="images\storelogo.png" />
+        <None Include="CordovaApp_TemporaryKey.pfx" />
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
+    <ItemGroup>
+        <SDKReference Include="Microsoft.WinJS.2.0, Version=1.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\cordova.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\cordova_plugins.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\css\index.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan01\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan01\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan01\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan01\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan02\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan02\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan02\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan02\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan03\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan03\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan03\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\fukuchan03\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\logo.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\index.html" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\index.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\index.js.map" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\index.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery-2.1.1.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\ajax-loader.gif" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\action-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\action-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\alert-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\alert-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-l-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-l-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-r-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-r-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-d-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-l-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-l-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-r-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-r-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-l-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-l-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-r-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-r-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\arrow-u-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\audio-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\audio-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\back-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\back-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\bars-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\bars-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\bullets-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\bullets-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\calendar-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\calendar-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\camera-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\camera-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-d-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-d-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-l-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-l-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-r-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-r-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-u-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\carat-u-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\check-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\check-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\clock-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\clock-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\cloud-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\cloud-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\comment-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\comment-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\delete-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\delete-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\edit-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\edit-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\eye-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\eye-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\forbidden-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\forbidden-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\forward-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\forward-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\gear-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\gear-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\grid-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\grid-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\heart-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\heart-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\home-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\home-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\info-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\info-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\location-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\location-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\lock-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\lock-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\mail-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\mail-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\minus-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\minus-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\navigation-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\navigation-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\phone-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\phone-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\plus-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\plus-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\power-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\power-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\recycle-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\recycle-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\refresh-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\refresh-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\search-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\search-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\shop-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\shop-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\star-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\star-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\tag-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\tag-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\user-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\user-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\video-black.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\video-white.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\action-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\action-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\alert-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\alert-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-l-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-l-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-r-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-r-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-d-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-l-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-l-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-r-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-r-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-l-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-l-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-r-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-r-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\arrow-u-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\audio-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\audio-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\back-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\back-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\bars-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\bars-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\bullets-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\bullets-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\calendar-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\calendar-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\camera-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\camera-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-d-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-d-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-l-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-l-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-r-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-r-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-u-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\carat-u-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\check-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\check-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\clock-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\clock-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\cloud-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\cloud-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\comment-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\comment-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\delete-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\delete-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\edit-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\edit-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\eye-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\eye-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\forbidden-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\forbidden-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\forward-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\forward-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\gear-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\gear-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\grid-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\grid-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\heart-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\heart-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\home-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\home-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\info-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\info-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\location-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\location-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\lock-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\lock-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\mail-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\mail-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\minus-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\minus-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\navigation-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\navigation-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\phone-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\phone-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\plus-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\plus-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\power-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\power-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\recycle-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\recycle-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\refresh-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\refresh-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\search-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\search-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\shop-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\shop-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\star-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\star-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\tag-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\tag-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\user-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\user-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\video-black.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-svg\video-white.svg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile-1.4.2.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.icons-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.inline-png-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.inline-svg-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.structure-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.theme-1.4.2.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\moment.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\jquery.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\moment.d.ts" />
+    </ItemGroup>
+</Project>

@@ -239,6 +239,14 @@ class FifteenPuzzle {
     private getRow(no: number) { return Math.floor(no / this.colCount); }
 }
 
+declare var Windows: any;
+if (!alert && window && Windows.UI) {
+    function alert(message: string) {
+        var msgBox = new Windows.UI.Popups.MessageDialog(message);
+        msgBox.showAsync();
+    }
+}
+
 var app = {
     // Application Constructor
     initialize: function () {
@@ -251,11 +259,11 @@ var app = {
                     (no === '3') ? 'fukuchan03' :
                     (no === '2') ? 'fukuchan02' : 'fukuchan01'
                 ) + '/')($('#selectedImage').val());
-                var imgSrc = ((w: number) => imgDir + (
-                    (w >= 1200) ? '1200.jpg' :
-                    (w >= 800) ? '800.jpg' :
-                    (w >= 600) ? '600.jpg' : '480.jpg'
-                ))(window.innerWidth);
+                var imgSrc = ((shortSide: number) => imgDir + (
+                    (shortSide >= 1200) ? '1200.jpg' :
+                    (shortSide >= 800) ? '800.jpg' :
+                    (shortSide >= 600) ? '600.jpg' : '480.jpg'
+                ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
             $('#btnReset').on('click', () => {
@@ -277,10 +285,11 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        app.receivedEvent('deviceready');
+        
     },
 
     // Update DOM on a Received Event
     receivedEvent: function () {
+
     }
 };
