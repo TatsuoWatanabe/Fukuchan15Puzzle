@@ -42,7 +42,7 @@ class FifteenPuzzle {
     private blockHeight: number;
     private blocks: Block[];
     private blankBgColor: string;
-    private isLocked = false;
+    private isLocked = false;  
     private UDLR = [
         [0, -1], // Up
         [0,  1], // Down
@@ -50,7 +50,7 @@ class FifteenPuzzle {
         [1,  0]  // Right
     ];
 
-    constructor(private canvas: HTMLCanvasElement) {
+    constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
         this.ctx = canvas.getContext('2d');
         var colors = ['Blue', 'Green', 'Red', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         this.blankBgColor = colors[this.rnd(colors.length)];
@@ -87,7 +87,7 @@ class FifteenPuzzle {
             this.drawPazzle(this.blocks);
             // 1秒後にシャッフルを開始する
             setTimeout(() => {
-                this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+                this.shufflePazzle(80 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
             }, 1000);
         }
     }
@@ -168,13 +168,14 @@ class FifteenPuzzle {
     }
 
     // 引数countの回数だけランダムにブロックを動かします。
-    private shufflePazzle(count: number, callback?: () => void) {
+    private shufflePazzle(count: number, onComplete?: () => void) {
         var suffle = () => {
             if (count < 0) { count = 1; }
             if (count -= 1) {
                 this.move(this.getRandomMovableBlock());
-                setTimeout(suffle, 25);
-            } else { callback(); }
+                setTimeout(suffle, 20);
+                this.onShuffle(count);
+            } else { onComplete(); }
         };
         suffle();
     }
@@ -239,13 +240,15 @@ class FifteenPuzzle {
     private getRow(no: number) { return Math.floor(no / this.colCount); }
 }
 
+// --- for Windows app ---
 declare var Windows: any;
-if (!alert && window && Windows.UI) {
+if (!alert && Windows && Windows.UI) {
     function alert(message: string) {
         var msgBox = new Windows.UI.Popups.MessageDialog(message);
         msgBox.showAsync();
     }
 }
+// -----------------------
 
 var app = {
     // Application Constructor
@@ -253,7 +256,9 @@ var app = {
         this.bindEvents();
         $(() => {
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas);
+            var puzzle = new FifteenPuzzle(canvas, (n: number) => {
+                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
                     (no === '3') ? 'fukuchan03' :

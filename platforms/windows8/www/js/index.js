@@ -53,8 +53,9 @@ var Block = (function () {
 })();
 
 var FifteenPuzzle = (function () {
-    function FifteenPuzzle(canvas) {
+    function FifteenPuzzle(canvas, onShuffle) {
         this.canvas = canvas;
+        this.onShuffle = onShuffle;
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -104,7 +105,7 @@ var FifteenPuzzle = (function () {
 
             // 1秒後にシャッフルを開始する
             setTimeout(function () {
-                _this.shufflePazzle(50 * _this.rowCount, function () {
+                _this.shufflePazzle(80 * _this.rowCount, function () {
                     _this.isLocked = false; /*ゲーム開始*/ 
                 });
             }, 1000);
@@ -186,7 +187,7 @@ var FifteenPuzzle = (function () {
     };
 
     // 引数countの回数だけランダムにブロックを動かします。
-    FifteenPuzzle.prototype.shufflePazzle = function (count, callback) {
+    FifteenPuzzle.prototype.shufflePazzle = function (count, onComplete) {
         var _this = this;
         var suffle = function () {
             if (count < 0) {
@@ -194,9 +195,10 @@ var FifteenPuzzle = (function () {
             }
             if (count -= 1) {
                 _this.move(_this.getRandomMovableBlock());
-                setTimeout(suffle, 25);
+                setTimeout(suffle, 20);
+                _this.onShuffle(count);
             } else {
-                callback();
+                onComplete();
             }
         };
         suffle();
@@ -273,13 +275,23 @@ var FifteenPuzzle = (function () {
     return FifteenPuzzle;
 })();
 
+if (!alert && Windows && Windows.UI) {
+    function alert(message) {
+        var msgBox = new Windows.UI.Popups.MessageDialog(message);
+        msgBox.showAsync();
+    }
+}
+
+// -----------------------
 var app = {
     // Application Constructor
     initialize: function () {
         this.bindEvents();
         $(function () {
             var canvas = document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas);
+            var puzzle = new FifteenPuzzle(canvas, function (n) {
+                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            });
             var reset = function () {
                 var imgDir = (function (no) {
                     return 'img/' + ((no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
@@ -306,7 +318,6 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
     receivedEvent: function () {
