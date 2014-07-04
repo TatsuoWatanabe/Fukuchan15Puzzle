@@ -36,6 +36,9 @@
     <Content Include="www\img\logo.png" />
     <Content Include="www\index.html" />
     <Content Include="www\js\index.js" />
+    <Content Include="www\js\lib\createjs\createjs\events\Event.js" />
+    <Content Include="www\js\lib\createjs\createjs\events\EventDispatcher.js" />
+    <Content Include="www\js\lib\createjs\easeljs-NEXT.min.js" />
     <Content Include="www\js\lib\jquery-2.1.1.js" />
     <Content Include="www\js\lib\jquery.mobile-1.4.2\images\ajax-loader.gif" />
     <Content Include="www\js\lib\jquery.mobile-1.4.2\images\icons-png\action-black.png" />
@@ -246,6 +249,13 @@
     <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.structure-1.4.2.css" />
     <Content Include="www\js\lib\jquery.mobile-1.4.2\jquery.mobile.theme-1.4.2.css" />
     <Content Include="www\js\lib\moment.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\CSSPlugin.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\Ease.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\MotionGuidePlugin.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\SamplePlugin.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\Timeline.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\Tween.js" />
+    <Content Include="www\js\lib\createjs\tweenjs\version.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="hooks\README.md" />
@@ -259,6 +269,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="www\js\index.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\createjs-lib.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\createjs.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\easeljs.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\preloadjs.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\soundjs.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\createjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="www\js\typings\jquery.d.ts" />
     <TypeScriptCompile Include="www\js\typings\moment.d.ts" />
   </ItemGroup>

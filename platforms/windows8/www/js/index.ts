@@ -180,7 +180,7 @@ class FifteenPuzzle {
         suffle();
     }
 
-    /// クリアしたかどうかをチェックします。
+    // クリアしたかどうかをチェックします。
     private checkClear() {
         var isCleared = this.blocks.every(block => block.isCorrect);
         if (isCleared) {

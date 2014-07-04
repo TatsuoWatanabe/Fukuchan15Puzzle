@@ -19,23 +19,27 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-
 /// <reference path="typings/jquery.d.ts" />
 /// <reference path="typings/moment.d.ts" />
+/// <reference path="typings/createjs/createjs.d.ts" />
 class Block {
-    constructor(private _position: number, public imgPosition: number, public isBlank = false) { }
+    constructor(private _position: number, public bitmap: createjs.Bitmap, public text: createjs.Text) {
+        this.imgPosition = _position;
+    }
+    public imgPosition: number;
     public get position() { return this._position; }
     public get label() { return String(this.imgPosition + 1); }
     public get isCorrect() { return this.imgPosition === this.position; }
+    public get isBlank() { return !this.bitmap.visible }
+    public set isBlank(f: boolean) { this.bitmap.visible = this.text.visible = !f;  }
 }
 
 class FifteenPuzzle {
     private image: HTMLImageElement;
-    private ctx: CanvasRenderingContext2D;
+    private stage: createjs.Stage;
     private rowCount: number;
     private colCount: number;
     private numBlocks: number;
-    private showNumber: boolean;
     private moveCount: number;
     private initMoment: Moment;
     private blockWidth: number;
@@ -51,7 +55,6 @@ class FifteenPuzzle {
     ];
 
     constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
-        this.ctx = canvas.getContext('2d');
         var colors = ['Blue', 'Green', 'Red', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         this.blankBgColor = colors[this.rnd(colors.length)];
         canvas.onmousedown = this.getMouseHandlerFunction();
@@ -59,79 +62,59 @@ class FifteenPuzzle {
     }
 
     // 15パズルを開始します。
-    public initGame(imgSrc: string, rowCount = 4, showNumber = true) {
+    public initGame(imgSrc: string, rowCount = 4) {
         if (this.isLocked) { return; }
-        this.showNumber = showNumber;
         this.rowCount = this.colCount = rowCount;
         this.numBlocks = this.rowCount * this.colCount;
         this.moveCount = 0;
         this.initMoment = moment();
         this.image = new Image();
         this.image.src = imgSrc;
-        this.image.onload = () => {
-            this.blockWidth = this.image.width / this.colCount;
-            this.blockHeight = this.image.height / this.rowCount;
-            this.canvas.width = this.image.width;
-            this.canvas.height = this.image.height;
-            this.ctx.drawImage(this.image, 10, 10, this.image.width, this.image.height);
-            this.isLocked = true;
-            // パズルのブロックを作成
-            this.blocks = [];
-            for (var i = 0; i < this.numBlocks; i++) {
-                // 末尾(右下)を空きブロックとする
-                var isBlank = (i === this.numBlocks - 1);
-                this.blocks[i] = new Block(i, i, isBlank);
-            }
+        this.image.onload = () => this.initImageLoaded();
+    }
 
-            // 画像を表示する
-            this.drawPazzle(this.blocks);
-            // 1秒後にシャッフルを開始する
-            setTimeout(() => {
-                this.shufflePazzle(80 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            }, 1000);
+    // 画像読込時に実行されるメソッドです。
+    private initImageLoaded() {
+        this.blockWidth = this.image.width / this.colCount;
+        this.blockHeight = this.image.height / this.rowCount;
+        this.canvas.width = this.image.width;
+        this.canvas.height = this.image.height;
+        this.stage = new createjs.Stage(this.canvas);
+        // set background to stage
+        this.stage.addChild(new createjs.Shape(
+            (new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
+        ));
+        createjs.Ticker.setFPS(200);
+        createjs.Ticker.addEventListener('tick', <any>this.stage);
+
+        this.isLocked = true;
+        // パズルのブロックを作成
+        this.blocks = [];
+        for (var i = 0; i < this.numBlocks; i++) {
+            var bm = new createjs.Bitmap(this.image);
+            var p = this.getCoordinates(i);
+            var lineWidth: number = 1;
+            bm.setTransform(p.x, p.y);
+            bm.sourceRect = new createjs.Rectangle(p.x, p.y, this.blockWidth - lineWidth, this.blockHeight - lineWidth);
+
+            var fontSize = Math.floor(this.blockWidth / 3);
+            var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
+            txt.color = 'white';
+            txt.alpha = 0.5;
+            txt.setTransform(p.x + (this.blockWidth - fontSize) / 1.8, p.y + (this.blockHeight + fontSize / 2) / 3);
+
+            this.stage.addChild(bm, txt);
+            this.blocks[i] = new Block(i, bm, txt);
+            this.blocks[i].isBlank = (i === this.numBlocks - 1); // 末尾(右下)を空きブロックとする
         }
+
+        // 1秒後にシャッフルを開始する
+        setTimeout(() => {
+            this.shufflePazzle(80 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+        }, 1000);
     }
 
-    // パズルを描画します。
-    private drawPazzle(targetBlocks: Block[], showNumber = this.showNumber, drawStroke = true) {
-        targetBlocks.forEach((block) => {
-            var desPoint = this.getCoordinates(block.position);    // 描画先座標を計算
-            var srcPoint = this.getCoordinates(block.imgPosition); // 描画元座標を計算
-
-            if (block.isBlank) {
-                this.ctx.fillStyle = this.blankBgColor;
-                this.ctx.fillRect(desPoint.x, desPoint.y, this.blockWidth, this.blockHeight);
-            } else {
-                this.ctx.drawImage(
-                    this.image,
-                    srcPoint.x, srcPoint.y, this.blockWidth, this.blockHeight,
-                    desPoint.x, desPoint.y, this.blockWidth, this.blockHeight
-                );
-            }
-
-            if (showNumber && !block.isBlank) {
-                // ブロック番号を描画する
-                var fontSize = Math.floor(this.blockWidth / 3);
-                this.ctx.fillStyle = 'white';
-                this.ctx.font = 'bold ' + String(fontSize) + 'px Arial';
-                this.ctx.fillText(block.label,
-                    desPoint.x + (this.blockWidth - fontSize) / 2,
-                    desPoint.y + (this.blockHeight + fontSize / 2) / 2
-                );
-            }
-
-            // 画像の枠を描画
-            if (drawStroke) {
-                this.ctx.beginPath();
-                this.ctx.strokeStyle = 'white';
-                this.ctx.lineWidth = 1.5;
-                this.ctx.rect(desPoint.x, desPoint.y, this.blockWidth, this.blockHeight);
-                this.ctx.stroke();
-                this.ctx.closePath();
-            }
-        });
-    }
-
+    // クリック時に実行する関数を返します。
     private getMouseHandlerFunction() {
         return (e: MouseEvent) => {
             var currentTarget: any = e.currentTarget;
@@ -148,9 +131,10 @@ class FifteenPuzzle {
                 var targetCol = col + direction[0];
                 var targetRow = row + direction[1];
                 if (!this.isOutOfRange(targetCol, targetRow) && this.getBlockByColRow(targetCol, targetRow).isBlank) {
-                    this.move(sourceBlock);
-                    this.moveCount += 1;
-                    this.checkClear();
+                    this.move(sourceBlock, () => {
+                        this.moveCount += 1;
+                        this.checkClear();
+                    });
                 }
             });
         };
@@ -172,9 +156,10 @@ class FifteenPuzzle {
         var suffle = () => {
             if (count < 0) { count = 1; }
             if (count -= 1) {
-                this.move(this.getRandomMovableBlock());
-                setTimeout(suffle, 20);
-                this.onShuffle(count);
+                this.move(this.getRandomMovableBlock(), () => {
+                    suffle();
+                    this.onShuffle(count);
+                }, 10);
             } else { onComplete(); }
         };
         suffle();
@@ -187,25 +172,45 @@ class FifteenPuzzle {
             var m = moment();
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
+            this.getBlankBlock().isBlank = false;
+            this.blocks.forEach((block) => block.text.visible = false);
             alert(
                 '完成！\n\n' +
                 'かかった手数: ' + this.moveCount + '手\n' +
                 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒'
             );
-            this.getBlankBlock().isBlank = false;
-            this.drawPazzle(this.blocks, false, false);
         }
     }
 
     // 指定したブロックNoのブロックを動かします。
-    private move(sourceBlock: Block) {
+    private move(sourceBlock: Block, callback?: () => void, duration = 200) {
         var blankBlock = this.getBlankBlock();
         var sourceImgPosition = sourceBlock.imgPosition;
+        var sourceBitmap = sourceBlock.bitmap;
+        var sourceText = sourceBlock.text;
+        var p = this.getCoordinates(blankBlock.position);
+
+        // move the block image
+        createjs.Tween.get(sourceBlock.bitmap)
+            .to({ x: p.x, y: p.y }, duration)
+            .set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap)
+            .call(() => {
+                //this.stage.setChildIndex(blankBlock.text, this.stage.getNumChildren() - 1); //一番手前
+                if (callback) { callback(); }
+            });
+        // move the text
+        createjs.Tween.get(sourceBlock.text)
+            .to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration)
+            .set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
+
+        sourceBlock.bitmap = blankBlock.bitmap;
+        sourceBlock.text = blankBlock.text;
         sourceBlock.imgPosition = blankBlock.imgPosition;
         sourceBlock.isBlank = true;
+        blankBlock.bitmap = sourceBitmap;
+        blankBlock.text = sourceText;
         blankBlock.imgPosition = sourceImgPosition
         blankBlock.isBlank = false;
-        this.drawPazzle([sourceBlock, blankBlock]);
     }
 
     // ブロック番号からx,y座標を取得します。
@@ -289,12 +294,8 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function () {
-        
-    },
+    onDeviceReady: function () { },
 
     // Update DOM on a Received Event
-    receivedEvent: function () {
-
-    }
+    receivedEvent: function () { }
 };

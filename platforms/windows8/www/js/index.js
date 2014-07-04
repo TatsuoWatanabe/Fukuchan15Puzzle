@@ -204,7 +204,7 @@ var FifteenPuzzle = (function () {
         suffle();
     };
 
-    /// クリアしたかどうかをチェックします。
+    // クリアしたかどうかをチェックします。
     FifteenPuzzle.prototype.checkClear = function () {
         var isCleared = this.blocks.every(function (block) {
             return block.isCorrect;
