@@ -188,14 +188,12 @@ class FifteenPuzzle {
         var sourceImgPosition = sourceBlock.imgPosition;
         var sourceBitmap = sourceBlock.bitmap;
         var sourceText = sourceBlock.text;
-        var p = this.getCoordinates(blankBlock.position);
 
         // move the block image
         createjs.Tween.get(sourceBlock.bitmap)
-            .to({ x: p.x, y: p.y }, duration)
+            .to(this.getCoordinates(blankBlock.position), duration)
             .set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap)
             .call(() => {
-                //this.stage.setChildIndex(blankBlock.text, this.stage.getNumChildren() - 1); //一番手前
                 if (callback) { callback(); }
             });
         // move the text
@@ -278,7 +276,7 @@ var app = {
             };
             $('#btnReset').on('click', () => {
                 reset();
-            }).trigger('click');
+            }).click();
         });
     },
 
