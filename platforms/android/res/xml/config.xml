@@ -13,5 +13,5 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <preference name="Orientation" value="landscape" />
+    <preference name="Orientation" value="portrait" />
 </widget>

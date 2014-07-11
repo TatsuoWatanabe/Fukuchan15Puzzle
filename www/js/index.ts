@@ -84,7 +84,7 @@ class FifteenPuzzle {
         this.stage.addChild(new createjs.Shape(
             (new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
         ));
-        createjs.Ticker.setFPS(50);
+        createjs.Ticker.setFPS(60);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
 
         this.isLocked = true;
@@ -94,7 +94,7 @@ class FifteenPuzzle {
             var p = this.getCoordinates(i);
             var dividedImageDataURL = ((img: HTMLImageElement, w: number, h: number) => {
                 var canvas = document.createElement('canvas');
-                var lineWidth = 1;
+                var lineWidth = 0.5;
                 canvas.width = w;
                 canvas.height = h;
                 canvas.getContext('2d').drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
@@ -102,14 +102,12 @@ class FifteenPuzzle {
             })(this.image, this.blockWidth, this.blockHeight);
             var bm = new createjs.Bitmap(dividedImageDataURL);
             bm.setTransform(p.x, p.y);
-            bm.cache(0, 0, this.blockWidth, this.blockHeight);
-           
+
             var fontSize = Math.floor(this.blockWidth / 3);
             var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
             txt.color = 'white';
             txt.alpha = 0.5;
             txt.setTransform(p.x + (this.blockWidth - fontSize) / 1.8, p.y + (this.blockHeight + fontSize / 2) / 3);
-            txt.cache(0, 0, this.blockWidth, this.blockHeight);
             
             this.stage.addChild(bm, txt);
             this.blocks[i] = new Block(i, bm, txt);
@@ -118,7 +116,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -167,7 +165,7 @@ class FifteenPuzzle {
                 this.move(this.getRandomMovableBlock(), () => {
                     suffle();
                     this.onShuffle(count);
-                }, 10);
+                }, 0);
             } else { onComplete(); }
         };
         suffle();
@@ -181,7 +179,7 @@ class FifteenPuzzle {
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
             this.getBlankBlock().isBlank = false;
-            this.blocks.forEach((block) => block.text.visible = false);
+            this.blocks.forEach((block) => block.isBlank = false);
             alert(
                 '完成！\n\n' +
                 'かかった手数: ' + this.moveCount + '手\n' +

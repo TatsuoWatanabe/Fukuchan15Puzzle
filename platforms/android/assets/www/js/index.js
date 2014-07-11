@@ -21,12 +21,13 @@
 */
 /// <reference path="typings/jquery.d.ts" />
 /// <reference path="typings/moment.d.ts" />
+/// <reference path="typings/createjs/createjs.d.ts" />
 var Block = (function () {
-    function Block(_position, imgPosition, isBlank) {
-        if (typeof isBlank === "undefined") { isBlank = false; }
+    function Block(_position, bitmap, text) {
         this._position = _position;
-        this.imgPosition = imgPosition;
-        this.isBlank = isBlank;
+        this.bitmap = bitmap;
+        this.text = text;
+        this.imgPosition = _position;
     }
     Object.defineProperty(Block.prototype, "position", {
         get: function () {
@@ -49,12 +50,23 @@ var Block = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Block.prototype, "isBlank", {
+        get: function () {
+            return !this.bitmap.visible;
+        },
+        set: function (f) {
+            this.bitmap.visible = this.text.visible = !f;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Block;
 })();
 
 var FifteenPuzzle = (function () {
-    function FifteenPuzzle(canvas) {
+    function FifteenPuzzle(canvas, onShuffle) {
         this.canvas = canvas;
+        this.onShuffle = onShuffle;
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -62,21 +74,18 @@ var FifteenPuzzle = (function () {
             [-1, 0],
             [1, 0]
         ];
-        this.ctx = canvas.getContext('2d');
         var colors = ['Blue', 'Green', 'Red', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         this.blankBgColor = colors[this.rnd(colors.length)];
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
     }
     // 15パズルを開始します。
-    FifteenPuzzle.prototype.initGame = function (imgSrc, rowCount, showNumber) {
+    FifteenPuzzle.prototype.initGame = function (imgSrc, rowCount) {
         var _this = this;
         if (typeof rowCount === "undefined") { rowCount = 4; }
-        if (typeof showNumber === "undefined") { showNumber = true; }
         if (this.isLocked) {
             return;
         }
-        this.showNumber = showNumber;
         this.rowCount = this.colCount = rowCount;
         this.numBlocks = this.rowCount * this.colCount;
         this.moveCount = 0;
@@ -84,69 +93,61 @@ var FifteenPuzzle = (function () {
         this.image = new Image();
         this.image.src = imgSrc;
         this.image.onload = function () {
-            _this.blockWidth = _this.image.width / _this.colCount;
-            _this.blockHeight = _this.image.height / _this.rowCount;
-            _this.canvas.width = _this.image.width;
-            _this.canvas.height = _this.image.height;
-            _this.ctx.drawImage(_this.image, 10, 10, _this.image.width, _this.image.height);
-            _this.isLocked = true;
-
-            // パズルのブロックを作成
-            _this.blocks = [];
-            for (var i = 0; i < _this.numBlocks; i++) {
-                // 末尾(右下)を空きブロックとする
-                var isBlank = (i === _this.numBlocks - 1);
-                _this.blocks[i] = new Block(i, i, isBlank);
-            }
-
-            // 画像を表示する
-            _this.drawPazzle(_this.blocks);
-
-            // 1秒後にシャッフルを開始する
-            setTimeout(function () {
-                _this.shufflePazzle(50 * _this.rowCount, function () {
-                    _this.isLocked = false; /*ゲーム開始*/ 
-                });
-            }, 1000);
+            return _this.initImageLoaded();
         };
     };
 
-    // パズルを描画します。
-    FifteenPuzzle.prototype.drawPazzle = function (targetBlocks, showNumber, drawStroke) {
+    // 画像読込時に実行されるメソッドです。
+    FifteenPuzzle.prototype.initImageLoaded = function () {
         var _this = this;
-        if (typeof showNumber === "undefined") { showNumber = this.showNumber; }
-        if (typeof drawStroke === "undefined") { drawStroke = true; }
-        targetBlocks.forEach(function (block) {
-            var desPoint = _this.getCoordinates(block.position);
-            var srcPoint = _this.getCoordinates(block.imgPosition);
+        this.blockWidth = this.image.width / this.colCount;
+        this.blockHeight = this.image.height / this.rowCount;
+        this.canvas.width = this.image.width;
+        this.canvas.height = this.image.height;
+        this.stage = new createjs.Stage(this.canvas);
 
-            if (block.isBlank) {
-                _this.ctx.fillStyle = _this.blankBgColor;
-                _this.ctx.fillRect(desPoint.x, desPoint.y, _this.blockWidth, _this.blockHeight);
-            } else {
-                _this.ctx.drawImage(_this.image, srcPoint.x, srcPoint.y, _this.blockWidth, _this.blockHeight, desPoint.x, desPoint.y, _this.blockWidth, _this.blockHeight);
-            }
+        // set background to stage
+        this.stage.addChild(new createjs.Shape((new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)));
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener('tick', this.stage);
 
-            if (showNumber && !block.isBlank) {
-                // ブロック番号を描画する
-                var fontSize = Math.floor(_this.blockWidth / 3);
-                _this.ctx.fillStyle = 'white';
-                _this.ctx.font = 'bold ' + String(fontSize) + 'px Arial';
-                _this.ctx.fillText(block.label, desPoint.x + (_this.blockWidth - fontSize) / 2, desPoint.y + (_this.blockHeight + fontSize / 2) / 2);
-            }
+        this.isLocked = true;
 
-            // 画像の枠を描画
-            if (drawStroke) {
-                _this.ctx.beginPath();
-                _this.ctx.strokeStyle = 'white';
-                _this.ctx.lineWidth = 1.5;
-                _this.ctx.rect(desPoint.x, desPoint.y, _this.blockWidth, _this.blockHeight);
-                _this.ctx.stroke();
-                _this.ctx.closePath();
-            }
-        });
+        // パズルのブロックを作成
+        this.blocks = [];
+        for (var i = 0; i < this.numBlocks; i++) {
+            var p = this.getCoordinates(i);
+            var dividedImageDataURL = (function (img, w, h) {
+                var canvas = document.createElement('canvas');
+                var lineWidth = 0.5;
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
+                return canvas.toDataURL("image/png");
+            })(this.image, this.blockWidth, this.blockHeight);
+            var bm = new createjs.Bitmap(dividedImageDataURL);
+            bm.setTransform(p.x, p.y);
+
+            var fontSize = Math.floor(this.blockWidth / 3);
+            var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
+            txt.color = 'white';
+            txt.alpha = 0.5;
+            txt.setTransform(p.x + (this.blockWidth - fontSize) / 1.8, p.y + (this.blockHeight + fontSize / 2) / 3);
+
+            this.stage.addChild(bm, txt);
+            this.blocks[i] = new Block(i, bm, txt);
+            this.blocks[i].isBlank = (i === this.numBlocks - 1); // 末尾(右下)を空きブロックとする
+        }
+
+        // 1秒後にシャッフルを開始する
+        setTimeout(function () {
+            _this.shufflePazzle(50 * _this.rowCount, function () {
+                _this.isLocked = false; /*ゲーム開始*/ 
+            });
+        }, 1000);
     };
 
+    // クリック時に実行する関数を返します。
     FifteenPuzzle.prototype.getMouseHandlerFunction = function () {
         var _this = this;
         return function (e) {
@@ -168,9 +169,10 @@ var FifteenPuzzle = (function () {
                 var targetCol = col + direction[0];
                 var targetRow = row + direction[1];
                 if (!_this.isOutOfRange(targetCol, targetRow) && _this.getBlockByColRow(targetCol, targetRow).isBlank) {
-                    _this.move(sourceBlock);
-                    _this.moveCount += 1;
-                    _this.checkClear();
+                    _this.move(sourceBlock, function () {
+                        _this.moveCount += 1;
+                        _this.checkClear();
+                    });
                 }
             });
         };
@@ -186,23 +188,25 @@ var FifteenPuzzle = (function () {
     };
 
     // 引数countの回数だけランダムにブロックを動かします。
-    FifteenPuzzle.prototype.shufflePazzle = function (count, callback) {
+    FifteenPuzzle.prototype.shufflePazzle = function (count, onComplete) {
         var _this = this;
         var suffle = function () {
             if (count < 0) {
                 count = 1;
             }
             if (count -= 1) {
-                _this.move(_this.getRandomMovableBlock());
-                setTimeout(suffle, 25);
+                _this.move(_this.getRandomMovableBlock(), function () {
+                    suffle();
+                    _this.onShuffle(count);
+                }, 0);
             } else {
-                callback();
+                onComplete();
             }
         };
         suffle();
     };
 
-    /// クリアしたかどうかをチェックします。
+    // クリアしたかどうかをチェックします。
     FifteenPuzzle.prototype.checkClear = function () {
         var isCleared = this.blocks.every(function (block) {
             return block.isCorrect;
@@ -211,21 +215,40 @@ var FifteenPuzzle = (function () {
             var m = moment();
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
-            alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
             this.getBlankBlock().isBlank = false;
-            this.drawPazzle(this.blocks, false, false);
+            this.blocks.forEach(function (block) {
+                return block.isBlank = false;
+            });
+            alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
         }
     };
 
     // 指定したブロックNoのブロックを動かします。
-    FifteenPuzzle.prototype.move = function (sourceBlock) {
+    FifteenPuzzle.prototype.move = function (sourceBlock, callback, duration) {
+        if (typeof duration === "undefined") { duration = 200; }
         var blankBlock = this.getBlankBlock();
         var sourceImgPosition = sourceBlock.imgPosition;
+        var sourceBitmap = sourceBlock.bitmap;
+        var sourceText = sourceBlock.text;
+
+        // move the block bitmap
+        createjs.Tween.get(sourceBlock.bitmap).to(this.getCoordinates(blankBlock.position), duration).set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap).call(function () {
+            if (callback) {
+                callback();
+            }
+        });
+
+        // move the text
+        createjs.Tween.get(sourceBlock.text).to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration).set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
+
+        sourceBlock.bitmap = blankBlock.bitmap;
+        sourceBlock.text = blankBlock.text;
         sourceBlock.imgPosition = blankBlock.imgPosition;
         sourceBlock.isBlank = true;
+        blankBlock.bitmap = sourceBitmap;
+        blankBlock.text = sourceText;
         blankBlock.imgPosition = sourceImgPosition;
         blankBlock.isBlank = false;
-        this.drawPazzle([sourceBlock, blankBlock]);
     };
 
     // ブロック番号からx,y座標を取得します。
@@ -273,25 +296,35 @@ var FifteenPuzzle = (function () {
     return FifteenPuzzle;
 })();
 
+if (!alert && Windows && Windows.UI) {
+    function alert(message) {
+        var msgBox = new Windows.UI.Popups.MessageDialog(message);
+        msgBox.showAsync();
+    }
+}
+
+// -----------------------
 var app = {
     // Application Constructor
     initialize: function () {
         this.bindEvents();
         $(function () {
             var canvas = document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas);
+            var puzzle = new FifteenPuzzle(canvas, function (n) {
+                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            });
             var reset = function () {
                 var imgDir = (function (no) {
                     return 'img/' + ((no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
                 })($('#selectedImage').val());
-                var imgSrc = (function (w) {
-                    return imgDir + ((w >= 1200) ? '1200.jpg' : (w >= 800) ? '800.jpg' : (w >= 600) ? '600.jpg' : '480.jpg');
-                })(window.innerWidth);
+                var imgSrc = (function (shortSide) {
+                    return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
+                })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
             $('#btnReset').on('click', function () {
                 reset();
-            }).trigger('click');
+            }).click();
         });
     },
     // Bind Event Listeners
@@ -306,7 +339,6 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
     receivedEvent: function () {

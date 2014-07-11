@@ -108,7 +108,7 @@ var FifteenPuzzle = (function () {
 
         // set background to stage
         this.stage.addChild(new createjs.Shape((new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)));
-        createjs.Ticker.setFPS(200);
+        createjs.Ticker.setFPS(60);
         createjs.Ticker.addEventListener('tick', this.stage);
 
         this.isLocked = true;
@@ -116,11 +116,17 @@ var FifteenPuzzle = (function () {
         // パズルのブロックを作成
         this.blocks = [];
         for (var i = 0; i < this.numBlocks; i++) {
-            var bm = new createjs.Bitmap(this.image);
             var p = this.getCoordinates(i);
-            var lineWidth = 1;
+            var dividedImageDataURL = (function (img, w, h) {
+                var canvas = document.createElement('canvas');
+                var lineWidth = 0.5;
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
+                return canvas.toDataURL("image/png");
+            })(this.image, this.blockWidth, this.blockHeight);
+            var bm = new createjs.Bitmap(dividedImageDataURL);
             bm.setTransform(p.x, p.y);
-            bm.sourceRect = new createjs.Rectangle(p.x, p.y, this.blockWidth - lineWidth, this.blockHeight - lineWidth);
 
             var fontSize = Math.floor(this.blockWidth / 3);
             var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
@@ -135,7 +141,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            _this.shufflePazzle(80 * _this.rowCount, function () {
+            _this.shufflePazzle(50 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -192,7 +198,7 @@ var FifteenPuzzle = (function () {
                 _this.move(_this.getRandomMovableBlock(), function () {
                     suffle();
                     _this.onShuffle(count);
-                }, 10);
+                }, 0);
             } else {
                 onComplete();
             }
@@ -211,7 +217,7 @@ var FifteenPuzzle = (function () {
             var sec = m.diff(this.initMoment, 'seconds');
             this.getBlankBlock().isBlank = false;
             this.blocks.forEach(function (block) {
-                return block.text.visible = false;
+                return block.isBlank = false;
             });
             alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
         }
@@ -225,7 +231,7 @@ var FifteenPuzzle = (function () {
         var sourceBitmap = sourceBlock.bitmap;
         var sourceText = sourceBlock.text;
 
-        // move the block image
+        // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap).to(this.getCoordinates(blankBlock.position), duration).set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap).call(function () {
             if (callback) {
                 callback();
