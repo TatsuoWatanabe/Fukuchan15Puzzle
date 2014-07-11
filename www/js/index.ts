@@ -84,25 +84,33 @@ class FifteenPuzzle {
         this.stage.addChild(new createjs.Shape(
             (new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
         ));
-        createjs.Ticker.setFPS(200);
+        createjs.Ticker.setFPS(50);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
 
         this.isLocked = true;
         // パズルのブロックを作成
         this.blocks = [];
         for (var i = 0; i < this.numBlocks; i++) {
-            var bm = new createjs.Bitmap(this.image);
             var p = this.getCoordinates(i);
-            var lineWidth: number = 1;
+            var dividedImageDataURL = ((img: HTMLImageElement, w: number, h: number) => {
+                var canvas = document.createElement('canvas');
+                var lineWidth = 1;
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
+                return canvas.toDataURL("image/png");
+            })(this.image, this.blockWidth, this.blockHeight);
+            var bm = new createjs.Bitmap(dividedImageDataURL);
             bm.setTransform(p.x, p.y);
-            bm.sourceRect = new createjs.Rectangle(p.x, p.y, this.blockWidth - lineWidth, this.blockHeight - lineWidth);
-
+            bm.cache(0, 0, this.blockWidth, this.blockHeight);
+           
             var fontSize = Math.floor(this.blockWidth / 3);
             var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
             txt.color = 'white';
             txt.alpha = 0.5;
             txt.setTransform(p.x + (this.blockWidth - fontSize) / 1.8, p.y + (this.blockHeight + fontSize / 2) / 3);
-
+            txt.cache(0, 0, this.blockWidth, this.blockHeight);
+            
             this.stage.addChild(bm, txt);
             this.blocks[i] = new Block(i, bm, txt);
             this.blocks[i].isBlank = (i === this.numBlocks - 1); // 末尾(右下)を空きブロックとする
@@ -110,7 +118,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(80 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -189,17 +197,18 @@ class FifteenPuzzle {
         var sourceBitmap = sourceBlock.bitmap;
         var sourceText = sourceBlock.text;
 
-        // move the block image
+        // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap)
             .to(this.getCoordinates(blankBlock.position), duration)
             .set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap)
             .call(() => {
                 if (callback) { callback(); }
             });
+
         // move the text
         createjs.Tween.get(sourceBlock.text)
-            .to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration)
-            .set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
+             .to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration)
+             .set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
 
         sourceBlock.bitmap = blankBlock.bitmap;
         sourceBlock.text = blankBlock.text;
