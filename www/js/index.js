@@ -60,6 +60,22 @@ var Block = (function () {
         enumerable: true,
         configurable: true
     });
+    Block.swapProperties = function (block1, block2) {
+        var temporaryValues = {
+            bitmap: block1.bitmap,
+            text: block1.text,
+            imgPosition: block1.imgPosition,
+            isBlank: block1.isBlank
+        };
+        block1.bitmap = block2.bitmap;
+        block1.text = block2.text;
+        block1.imgPosition = block2.imgPosition;
+        block1.isBlank = block2.isBlank;
+        block2.bitmap = temporaryValues.bitmap;
+        block2.text = temporaryValues.text;
+        block2.imgPosition = temporaryValues.imgPosition;
+        block2.isBlank = temporaryValues.isBlank;
+    };
     return Block;
 })();
 
@@ -227,9 +243,6 @@ var FifteenPuzzle = (function () {
     FifteenPuzzle.prototype.move = function (sourceBlock, callback, duration) {
         if (typeof duration === "undefined") { duration = 200; }
         var blankBlock = this.getBlankBlock();
-        var sourceImgPosition = sourceBlock.imgPosition;
-        var sourceBitmap = sourceBlock.bitmap;
-        var sourceText = sourceBlock.text;
 
         // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap).to(this.getCoordinates(blankBlock.position), duration).set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap).call(function () {
@@ -241,14 +254,8 @@ var FifteenPuzzle = (function () {
         // move the text
         createjs.Tween.get(sourceBlock.text).to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration).set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
 
-        sourceBlock.bitmap = blankBlock.bitmap;
-        sourceBlock.text = blankBlock.text;
-        sourceBlock.imgPosition = blankBlock.imgPosition;
-        sourceBlock.isBlank = true;
-        blankBlock.bitmap = sourceBitmap;
-        blankBlock.text = sourceText;
-        blankBlock.imgPosition = sourceImgPosition;
-        blankBlock.isBlank = false;
+        // swap the block image position info
+        Block.swapProperties(sourceBlock, blankBlock);
     };
 
     // ブロック番号からx,y座標を取得します。

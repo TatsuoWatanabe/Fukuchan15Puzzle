@@ -31,7 +31,23 @@ class Block {
     public get label() { return String(this.imgPosition + 1); }
     public get isCorrect() { return this.imgPosition === this.position; }
     public get isBlank() { return !this.bitmap.visible }
-    public set isBlank(f: boolean) { this.bitmap.visible = this.text.visible = !f;  }
+    public set isBlank(f: boolean) { this.bitmap.visible = this.text.visible = !f; }
+    public static swapProperties(block1: Block, block2: Block) {
+        var temporaryValues = {
+            bitmap: block1.bitmap,
+            text: block1.text,
+            imgPosition: block1.imgPosition,
+            isBlank: block1.isBlank
+        }; 
+        block1.bitmap = block2.bitmap;
+        block1.text = block2.text;
+        block1.imgPosition = block2.imgPosition;
+        block1.isBlank = block2.isBlank;
+        block2.bitmap = temporaryValues.bitmap;
+        block2.text = temporaryValues.text;
+        block2.imgPosition = temporaryValues.imgPosition;
+        block2.isBlank = temporaryValues.isBlank;
+    }
 }
 
 class FifteenPuzzle {
@@ -191,9 +207,6 @@ class FifteenPuzzle {
     // 指定したブロックNoのブロックを動かします。
     private move(sourceBlock: Block, callback?: () => void, duration = 200) {
         var blankBlock = this.getBlankBlock();
-        var sourceImgPosition = sourceBlock.imgPosition;
-        var sourceBitmap = sourceBlock.bitmap;
-        var sourceText = sourceBlock.text;
 
         // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap)
@@ -208,14 +221,8 @@ class FifteenPuzzle {
              .to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration)
              .set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
 
-        sourceBlock.bitmap = blankBlock.bitmap;
-        sourceBlock.text = blankBlock.text;
-        sourceBlock.imgPosition = blankBlock.imgPosition;
-        sourceBlock.isBlank = true;
-        blankBlock.bitmap = sourceBitmap;
-        blankBlock.text = sourceText;
-        blankBlock.imgPosition = sourceImgPosition
-        blankBlock.isBlank = false;
+        // swap the block image position info
+        Block.swapProperties(sourceBlock, blankBlock);
     }
 
     // ブロック番号からx,y座標を取得します。
