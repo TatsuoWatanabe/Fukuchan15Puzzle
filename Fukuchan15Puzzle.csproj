@@ -256,6 +256,7 @@
     <Content Include="www\js\lib\createjs\tweenjs\Timeline.js" />
     <Content Include="www\js\lib\createjs\tweenjs\Tween.js" />
     <Content Include="www\js\lib\createjs\tweenjs\version.js" />
+    <Content Include="www\js\lib\rgbcolor.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="hooks\README.md" />
@@ -277,6 +278,7 @@
     <TypeScriptCompile Include="www\js\typings\createjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="www\js\typings\jquery.d.ts" />
     <TypeScriptCompile Include="www\js\typings\moment.d.ts" />
+    <TypeScriptCompile Include="www\js\typings\rgbcolor.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="merges\android\" />
