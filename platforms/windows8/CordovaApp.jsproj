@@ -127,6 +127,36 @@
         <Content Include="www\js\index.ts" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\js\lib\createjs\createjs\events\Event.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\createjs\events\EventDispatcher.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\easeljs-NEXT.min.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\CSSPlugin.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\Ease.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\MotionGuidePlugin.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\SamplePlugin.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\Timeline.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\Tween.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\lib\createjs\tweenjs\version.js" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\js\lib\jquery-2.1.1.js" />
     </ItemGroup>
     <ItemGroup>
@@ -757,9 +787,33 @@
         <Content Include="www\js\lib\moment.js" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\js\lib\rgbcolor.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\createjs-lib.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\createjs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\easeljs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\preloadjs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\soundjs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\createjs\tweenjs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\js\typings\jquery.d.ts" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\js\typings\moment.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\js\typings\rgbcolor.d.ts" />
     </ItemGroup>
 </Project>

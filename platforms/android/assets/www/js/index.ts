@@ -22,16 +22,29 @@
 /// <reference path="typings/jquery.d.ts" />
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
+/// <reference path="typings/rgbcolor.d.ts" />
 class Block {
-    constructor(private _position: number, public bitmap: createjs.Bitmap, public text: createjs.Text) {
+    constructor(private _position: number, public bitmap: createjs.Bitmap) {
         this.imgPosition = _position;
     }
     public imgPosition: number;
     public get position() { return this._position; }
-    public get label() { return String(this.imgPosition + 1); }
     public get isCorrect() { return this.imgPosition === this.position; }
     public get isBlank() { return !this.bitmap.visible }
-    public set isBlank(f: boolean) { this.bitmap.visible = this.text.visible = !f;  }
+    public set isBlank(f: boolean) { this.bitmap.visible = !f; }
+    public static swapProperties(block1: Block, block2: Block) {
+        var temporaryValues = {
+            bitmap: block1.bitmap,
+            imgPosition: block1.imgPosition,
+            isBlank: block1.isBlank
+        }; 
+        block1.bitmap = block2.bitmap;
+        block1.imgPosition = block2.imgPosition;
+        block1.isBlank = block2.isBlank;
+        block2.bitmap = temporaryValues.bitmap;
+        block2.imgPosition = temporaryValues.imgPosition;
+        block2.isBlank = temporaryValues.isBlank;
+    }
 }
 
 class FifteenPuzzle {
@@ -45,7 +58,7 @@ class FifteenPuzzle {
     private blockWidth: number;
     private blockHeight: number;
     private blocks: Block[];
-    private blankBgColor: string;
+    private bgColor: string;
     private isLocked = false;  
     private UDLR = [
         [0, -1], // Up
@@ -55,8 +68,7 @@ class FifteenPuzzle {
     ];
 
     constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
-        var colors = ['Blue', 'Green', 'Red', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
-        this.blankBgColor = colors[this.rnd(colors.length)];
+        this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
     }
@@ -80,9 +92,10 @@ class FifteenPuzzle {
         this.canvas.width = this.image.width;
         this.canvas.height = this.image.height;
         this.stage = new createjs.Stage(this.canvas);
+        this.stage.clear();
         // set background to stage
         this.stage.addChild(new createjs.Shape(
-            (new createjs.Graphics()).beginFill(this.blankBgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
+            (new createjs.Graphics()).beginFill(this.bgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
         ));
         createjs.Ticker.setFPS(60);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
@@ -90,33 +103,40 @@ class FifteenPuzzle {
         this.isLocked = true;
         // パズルのブロックを作成
         this.blocks = [];
+        var blockLabelColor = this.getRandomColor(true);
         for (var i = 0; i < this.numBlocks; i++) {
             var p = this.getCoordinates(i);
             var dividedImageDataURL = ((img: HTMLImageElement, w: number, h: number) => {
                 var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
                 var lineWidth = 0.5;
+                var fontSize = Math.floor(w / 1.3);
+                var labelText = String(i + 1);
                 canvas.width = w;
                 canvas.height = h;
-                canvas.getContext('2d').drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
+                // draw the part of image
+                ctx.drawImage(img, p.x, p.y, w, h, 0, 0, w - lineWidth, h - lineWidth);
+                // draw the block label
+                ctx.globalAlpha = 0.4;
+                ctx.fillStyle = blockLabelColor;
+                ctx.font = 'bold ' + String(fontSize) + 'px Arial';
+                ctx.fillText(labelText,
+                    (w - fontSize) / labelText.length,
+                    fontSize
+                );
                 return canvas.toDataURL("image/png");
             })(this.image, this.blockWidth, this.blockHeight);
             var bm = new createjs.Bitmap(dividedImageDataURL);
             bm.setTransform(p.x, p.y);
-
-            var fontSize = Math.floor(this.blockWidth / 3);
-            var txt = new createjs.Text(String(i + 1), 'bold ' + String(fontSize) + 'px Arial');
-            txt.color = 'white';
-            txt.alpha = 0.5;
-            txt.setTransform(p.x + (this.blockWidth - fontSize) / 1.8, p.y + (this.blockHeight + fontSize / 2) / 3);
-            
-            this.stage.addChild(bm, txt);
-            this.blocks[i] = new Block(i, bm, txt);
+            this.stage.addChild(bm);
+            this.blocks[i] = new Block(i, bm);
             this.blocks[i].isBlank = (i === this.numBlocks - 1); // 末尾(右下)を空きブロックとする
         }
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            // this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(1 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -171,6 +191,14 @@ class FifteenPuzzle {
         suffle();
     }
 
+    // 色名をランダムに一つ返します。
+    private getRandomColor(toRGB = false) {
+        var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
+        var colorName = colors[this.rnd(colors.length)];
+        var rgbColor = new RGBColor(colorName);
+        return toRGB ? rgbColor.toRGB() : colorName;
+    }
+
     // クリアしたかどうかをチェックします。
     private checkClear() {
         var isCleared = this.blocks.every(block => block.isCorrect);
@@ -179,43 +207,34 @@ class FifteenPuzzle {
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
             this.getBlankBlock().isBlank = false;
-            this.blocks.forEach((block) => block.isBlank = false);
+            createjs.Ticker.removeEventListener('tick', <any>this.stage);
+            this.stage.removeAllChildren();
+            this.stage.clear();
+            this.stage.addChild(new createjs.Bitmap(this.image));
+            this.stage.update();
             alert(
                 '完成！\n\n' +
                 'かかった手数: ' + this.moveCount + '手\n' +
                 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒'
             );
+            this.stage.update();
         }
     }
 
     // 指定したブロックNoのブロックを動かします。
     private move(sourceBlock: Block, callback?: () => void, duration = 200) {
         var blankBlock = this.getBlankBlock();
-        var sourceImgPosition = sourceBlock.imgPosition;
-        var sourceBitmap = sourceBlock.bitmap;
-        var sourceText = sourceBlock.text;
 
         // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap)
             .to(this.getCoordinates(blankBlock.position), duration)
             .set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap)
             .call(() => {
-                if (callback) { callback(); }
+                if (callback) { setTimeout(() => callback(), duration); }
             });
 
-        // move the text
-        createjs.Tween.get(sourceBlock.text)
-             .to({ x: blankBlock.text.x, y: blankBlock.text.y }, duration)
-             .set({ x: sourceBlock.text.x, y: sourceBlock.text.y }, blankBlock.text);
-
-        sourceBlock.bitmap = blankBlock.bitmap;
-        sourceBlock.text = blankBlock.text;
-        sourceBlock.imgPosition = blankBlock.imgPosition;
-        sourceBlock.isBlank = true;
-        blankBlock.bitmap = sourceBitmap;
-        blankBlock.text = sourceText;
-        blankBlock.imgPosition = sourceImgPosition
-        blankBlock.isBlank = false;
+        // swap the block image position info
+        Block.swapProperties(sourceBlock, blankBlock);
     }
 
     // ブロック番号からx,y座標を取得します。
@@ -252,8 +271,8 @@ class FifteenPuzzle {
 
 // --- for Windows app ---
 declare var Windows: any;
-if (!alert && Windows && Windows.UI) {
-    function alert(message: string) {
+if (!window.alert && Windows && Windows.UI) {
+    window.alert = (message: string) => {
         var msgBox = new Windows.UI.Popups.MessageDialog(message);
         msgBox.showAsync();
     }

@@ -80,6 +80,10 @@ var FifteenPuzzle = (function () {
             [-1, 0],
             [1, 0]
         ];
+        this.stage = new createjs.Stage(this.canvas);
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener('tick', this.stage);
+
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
@@ -109,14 +113,11 @@ var FifteenPuzzle = (function () {
         this.blockHeight = this.image.height / this.rowCount;
         this.canvas.width = this.image.width;
         this.canvas.height = this.image.height;
-        this.stage = new createjs.Stage(this.canvas);
+        this.stage.removeAllChildren();
         this.stage.clear();
 
         // set background to stage
         this.stage.addChild(new createjs.Shape((new createjs.Graphics()).beginFill(this.bgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)));
-        createjs.Ticker.setFPS(60);
-        createjs.Ticker.addEventListener('tick', this.stage);
-
         this.isLocked = true;
 
         // パズルのブロックを作成
@@ -152,8 +153,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            // this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            _this.shufflePazzle(1 * _this.rowCount, function () {
+            _this.shufflePazzle(50 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -236,12 +236,13 @@ var FifteenPuzzle = (function () {
             var m = moment();
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
-            createjs.Ticker.removeEventListener('tick', this.stage);
+            this.getBlankBlock().isBlank = false;
             this.stage.removeAllChildren();
             this.stage.clear();
             this.stage.addChild(new createjs.Bitmap(this.image));
             this.stage.update();
             alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
+            this.stage.update();
         }
     };
 
@@ -253,7 +254,9 @@ var FifteenPuzzle = (function () {
         // move the block bitmap
         createjs.Tween.get(sourceBlock.bitmap).to(this.getCoordinates(blankBlock.position), duration).set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap).call(function () {
             if (callback) {
-                callback();
+                setTimeout(function () {
+                    return callback();
+                }, duration);
             }
         });
 
@@ -306,11 +309,11 @@ var FifteenPuzzle = (function () {
     return FifteenPuzzle;
 })();
 
-if (!alert && Windows && Windows.UI) {
-    function alert(message) {
+if (!window.alert && Windows && Windows.UI) {
+    window.alert = function (message) {
         var msgBox = new Windows.UI.Popups.MessageDialog(message);
         msgBox.showAsync();
-    }
+    };
 }
 
 // -----------------------

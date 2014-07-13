@@ -68,6 +68,11 @@ class FifteenPuzzle {
     ];
 
     constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
+        this.stage = new createjs.Stage(this.canvas);
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener('tick', <any>this.stage);
+
+
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
@@ -91,15 +96,12 @@ class FifteenPuzzle {
         this.blockHeight = this.image.height / this.rowCount;
         this.canvas.width = this.image.width;
         this.canvas.height = this.image.height;
-        this.stage = new createjs.Stage(this.canvas);
+        this.stage.removeAllChildren();
         this.stage.clear();
         // set background to stage
         this.stage.addChild(new createjs.Shape(
             (new createjs.Graphics()).beginFill(this.bgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)
         ));
-        createjs.Ticker.setFPS(60);
-        createjs.Ticker.addEventListener('tick', <any>this.stage);
-
         this.isLocked = true;
         // パズルのブロックを作成
         this.blocks = [];
@@ -135,8 +137,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            // this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            this.shufflePazzle(1 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -206,7 +207,7 @@ class FifteenPuzzle {
             var m = moment();
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
-            createjs.Ticker.removeEventListener('tick', <any>this.stage);
+            this.getBlankBlock().isBlank = false;
             this.stage.removeAllChildren();
             this.stage.clear();
             this.stage.addChild(new createjs.Bitmap(this.image));
@@ -216,6 +217,7 @@ class FifteenPuzzle {
                 'かかった手数: ' + this.moveCount + '手\n' +
                 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒'
             );
+            this.stage.update();
         }
     }
 
@@ -228,7 +230,7 @@ class FifteenPuzzle {
             .to(this.getCoordinates(blankBlock.position), duration)
             .set(this.getCoordinates(sourceBlock.position), blankBlock.bitmap)
             .call(() => {
-                if (callback) { callback(); }
+                if (callback) { setTimeout(() => callback(), duration); }
             });
 
         // swap the block image position info
@@ -269,8 +271,8 @@ class FifteenPuzzle {
 
 // --- for Windows app ---
 declare var Windows: any;
-if (!alert && Windows && Windows.UI) {
-    function alert(message: string) {
+if (!window.alert && Windows && Windows.UI) {
+    window.alert = (message: string) => {
         var msgBox = new Windows.UI.Popups.MessageDialog(message);
         msgBox.showAsync();
     }
