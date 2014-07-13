@@ -90,7 +90,6 @@ var FifteenPuzzle = (function () {
     // 15パズルを開始します。
     FifteenPuzzle.prototype.initGame = function (imgSrc, rowCount) {
         var _this = this;
-        if (typeof rowCount === "undefined") { rowCount = 4; }
         if (this.isLocked) {
             return;
         }
@@ -127,7 +126,7 @@ var FifteenPuzzle = (function () {
             var dividedImageDataURL = (function (img, w, h) {
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
-                var lineWidth = 0.5;
+                var lineWidth = 1.0;
                 var fontSize = Math.floor(w / 1.3);
                 var labelText = String(i + 1);
                 canvas.width = w;
@@ -152,7 +151,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            _this.shufflePazzle(20 * _this.rowCount, function () {
+            _this.shufflePazzle(30 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -202,10 +201,8 @@ var FifteenPuzzle = (function () {
     FifteenPuzzle.prototype.shufflePazzle = function (count, onComplete) {
         var _this = this;
         var suffle = function () {
-            if (count < 0) {
-                count = 1;
-            }
-            if (count -= 1) {
+            count -= 1;
+            if (count > 0) {
                 _this.move(_this.getRandomMovableBlock(), function () {
                     suffle();
                     _this.onShuffle(count);
@@ -219,7 +216,6 @@ var FifteenPuzzle = (function () {
 
     // 色名をランダムに一つ返します。
     FifteenPuzzle.prototype.getRandomColor = function (toRGB) {
-        if (typeof toRGB === "undefined") { toRGB = false; }
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);

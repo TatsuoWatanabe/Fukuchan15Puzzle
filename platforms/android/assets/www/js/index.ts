@@ -77,7 +77,7 @@ class FifteenPuzzle {
     }
 
     // 15パズルを開始します。
-    public initGame(imgSrc: string, rowCount = 4) {
+    public initGame(imgSrc: string, rowCount) {
         if (this.isLocked) { return; }
         this.rowCount = this.colCount = rowCount;
         this.numBlocks = this.rowCount * this.colCount;
@@ -109,7 +109,7 @@ class FifteenPuzzle {
             var dividedImageDataURL = ((img: HTMLImageElement, w: number, h: number) => {
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
-                var lineWidth = 0.5;
+                var lineWidth = 1.0;
                 var fontSize = Math.floor(w / 1.3);
                 var labelText = String(i + 1);
                 canvas.width = w;
@@ -135,7 +135,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(20 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -285,7 +285,7 @@ var app = {
             // Canvas Bug at Android 4.0 to 4.1
             // https://code.google.com/p/android/issues/detail?id=41312
             // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
-            // Cure the canvas parent element css property
+            // Cure the canvas parent element css property.
             $('canvas').parent().css('overflow', 'visible');
             
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');

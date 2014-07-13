@@ -1,24 +1,24 @@
 ﻿/*
-* Copyright (c) 2014 Tatsuo Watanabe
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
+ * Copyright (c) 2014 Tatsuo Watanabe
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 /// <reference path="typings/jquery.d.ts" />
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
@@ -77,7 +77,7 @@ class FifteenPuzzle {
     }
 
     // 15パズルを開始します。
-    public initGame(imgSrc: string, rowCount = 4) {
+    public initGame(imgSrc: string, rowCount) {
         if (this.isLocked) { return; }
         this.rowCount = this.colCount = rowCount;
         this.numBlocks = this.rowCount * this.colCount;
@@ -109,7 +109,7 @@ class FifteenPuzzle {
             var dividedImageDataURL = ((img: HTMLImageElement, w: number, h: number) => {
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
-                var lineWidth = 0.5;
+                var lineWidth = 1.0;
                 var fontSize = Math.floor(w / 1.3);
                 var labelText = String(i + 1);
                 canvas.width = w;
@@ -135,7 +135,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(20 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -172,15 +172,15 @@ class FifteenPuzzle {
         var targetCol = this.getCol(blankBlock.position) + direction[0];
         var targetRow = this.getRow(blankBlock.position) + direction[1];
         return this.isOutOfRange(targetCol, targetRow) ?
-            <Block>this.getRandomMovableBlock() :
+            <Block>this.getRandomMovableBlock() : // recursive retry
             this.getBlockByColRow(targetCol, targetRow);
     }
 
     // 引数countの回数だけランダムにブロックを動かします。
     private shufflePazzle(count: number, onComplete?: () => void) {
         var suffle = () => {
-            if (count < 0) { count = 1; }
-            if (count -= 1) {
+            count -= 1;
+            if (count > 0) {
                 this.move(this.getRandomMovableBlock(), () => {
                     suffle();
                     this.onShuffle(count);
@@ -191,7 +191,7 @@ class FifteenPuzzle {
     }
 
     // 色名をランダムに一つ返します。
-    private getRandomColor(toRGB = false) {
+    private getRandomColor(toRGB?: boolean) {
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
