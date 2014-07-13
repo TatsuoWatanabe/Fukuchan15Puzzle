@@ -81,9 +81,8 @@ var FifteenPuzzle = (function () {
             [1, 0]
         ];
         this.stage = new createjs.Stage(this.canvas);
-        createjs.Ticker.setFPS(60);
+        createjs.Ticker.setFPS(80);
         createjs.Ticker.addEventListener('tick', this.stage);
-
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
@@ -153,7 +152,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            _this.shufflePazzle(50 * _this.rowCount, function () {
+            _this.shufflePazzle(20 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -248,7 +247,7 @@ var FifteenPuzzle = (function () {
 
     // 指定したブロックNoのブロックを動かします。
     FifteenPuzzle.prototype.move = function (sourceBlock, callback, duration) {
-        if (typeof duration === "undefined") { duration = 200; }
+        if (typeof duration === "undefined") { duration = 150; }
         var blankBlock = this.getBlankBlock();
 
         // move the block bitmap
@@ -322,6 +321,12 @@ var app = {
     initialize: function () {
         this.bindEvents();
         $(function () {
+            // Canvas Bug at Android 4.0 to 4.1
+            // https://code.google.com/p/android/issues/detail?id=41312
+            // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
+            // Cure the canvas parent element css property.
+            $('canvas').parent().css('overflow', 'visible');
+
             var canvas = document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas, function (n) {
                 $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');

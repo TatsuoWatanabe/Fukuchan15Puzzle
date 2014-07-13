@@ -80,6 +80,9 @@ var FifteenPuzzle = (function () {
             [-1, 0],
             [1, 0]
         ];
+        this.stage = new createjs.Stage(this.canvas);
+        createjs.Ticker.setFPS(80);
+        createjs.Ticker.addEventListener('tick', this.stage);
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
@@ -109,14 +112,11 @@ var FifteenPuzzle = (function () {
         this.blockHeight = this.image.height / this.rowCount;
         this.canvas.width = this.image.width;
         this.canvas.height = this.image.height;
-        this.stage = new createjs.Stage(this.canvas);
+        this.stage.removeAllChildren();
         this.stage.clear();
 
         // set background to stage
         this.stage.addChild(new createjs.Shape((new createjs.Graphics()).beginFill(this.bgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)));
-        createjs.Ticker.setFPS(60);
-        createjs.Ticker.addEventListener('tick', this.stage);
-
         this.isLocked = true;
 
         // パズルのブロックを作成
@@ -152,8 +152,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            // this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            _this.shufflePazzle(1 * _this.rowCount, function () {
+            _this.shufflePazzle(20 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -237,7 +236,6 @@ var FifteenPuzzle = (function () {
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
             this.getBlankBlock().isBlank = false;
-            createjs.Ticker.removeEventListener('tick', this.stage);
             this.stage.removeAllChildren();
             this.stage.clear();
             this.stage.addChild(new createjs.Bitmap(this.image));
@@ -249,7 +247,7 @@ var FifteenPuzzle = (function () {
 
     // 指定したブロックNoのブロックを動かします。
     FifteenPuzzle.prototype.move = function (sourceBlock, callback, duration) {
-        if (typeof duration === "undefined") { duration = 200; }
+        if (typeof duration === "undefined") { duration = 150; }
         var blankBlock = this.getBlankBlock();
 
         // move the block bitmap
@@ -323,6 +321,12 @@ var app = {
     initialize: function () {
         this.bindEvents();
         $(function () {
+            // Canvas Bug at Android 4.0 to 4.1
+            // https://code.google.com/p/android/issues/detail?id=41312
+            // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
+            // Cure the canvas parent element css property
+            $('canvas').parent().css('overflow', 'visible');
+
             var canvas = document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas, function (n) {
                 $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
