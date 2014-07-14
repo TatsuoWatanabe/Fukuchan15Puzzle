@@ -294,6 +294,8 @@ var app = {
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
+                    (no === '5') ? 'fukuchan05' :
+                    (no === '4') ? 'fukuchan04' :
                     (no === '3') ? 'fukuchan03' :
                     (no === '2') ? 'fukuchan02' : 'fukuchan01'
                 ) + '/')($('#selectedImage').val());
