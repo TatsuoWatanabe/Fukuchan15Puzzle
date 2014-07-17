@@ -43,7 +43,6 @@
     <Content Include="www\img\fukuchan05\800.jpg" />
     <Content Include="www\img\logo.png" />
     <Content Include="www\index.html" />
-    <TypeScriptCompile Include="www\js\AdLoader.ts" />
     <Content Include="www\js\index.js" />
     <Content Include="www\js\lib\createjs\createjs\events\Event.js" />
     <Content Include="www\js\lib\createjs\createjs\events\EventDispatcher.js" />
