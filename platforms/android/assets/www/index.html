@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
@@ -14,15 +14,14 @@
     <script src="js/lib/jquery-2.1.1.js"></script>
     <script src="js/lib/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
     <script src="js/lib/moment.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
     <script src="js/lib/createjs/easeljs-NEXT.min.js"></script>
     <script src="js/lib/createjs/createjs/events/Event.js"></script>
     <script src="js/lib/createjs/createjs/events/EventDispatcher.js"></script>
     <script src="js/lib/createjs/tweenjs/Tween.js"></script>
     <script src="js/lib/createjs/tweenjs/Ease.js"></script>
     <script src="js/lib/rgbcolor.js"></script>
-
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();
     </script>
@@ -37,12 +36,14 @@
         
         <canvas id="canvas" style="display:block; margin:auto;"></canvas>
 
-        <div style="width:50%; margin:auto; text-align:center">
+        <div style="width:60%; margin:auto; text-align:center">
             <fieldset data-role="controlgroup" data-mini="true">
                 <select name="selectedImage" id="selectedImage" data-native-menu="false" data-theme="b" data-overlay-theme="b">
                     <option value="1">fukuchan01</option>
                     <option value="2">fukuchan02</option>
                     <option value="3">fukuchan03</option>
+                    <option value="4">fukuchan04</option>
+                    <option value="5">fukuchan05</option>
                 </select>
                 <select name="puzzleSize" id="puzzleSize" data-native-menu="false" data-theme="b" data-overlay-theme="b">
                     <option value="3">8 Puzzle</option>
@@ -58,6 +59,21 @@
             <div style="margin-top:2em;">
                 <button id="btnReset" class="ui-btn ui-btn-b ui-corner-all">Reset</button>
             </div>
+
+            <!-- 広告用スペース -->
+            <div id="adArea">
+                <a href="#popupAd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-c" data-transition="pop">広告</a>
+                <div data-role="popup" id="popupAd" data-theme="a">
+                    <div style="padding:30px 60px;">
+                        <h1>広告スペース</h1>
+                        <script type="text/javascript">
+                            var nend_params = { "media": 17546, "site": 85492, "spot": 204561, "type": 1, "oriented": 3 };
+                        </script>
+                        <script type="text/javascript" src="http://js1.nend.net/js/nendAdLoader.js"></script>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>

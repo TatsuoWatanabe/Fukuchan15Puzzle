@@ -1,24 +1,24 @@
 ﻿/*
-* Copyright (c) 2014 Tatsuo Watanabe
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
+ * Copyright (c) 2014 Tatsuo Watanabe
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 /// <reference path="typings/jquery.d.ts" />
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
@@ -67,7 +67,7 @@ class FifteenPuzzle {
         [1,  0]  // Right
     ];
 
-    constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
+    constructor(private canvas: HTMLCanvasElement, private callbacks: { onShuffle: (n: number) => void; onClear: () => void }) {
         this.stage = new createjs.Stage(this.canvas);
         createjs.Ticker.setFPS(80);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
@@ -135,7 +135,8 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            // this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(1 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -172,18 +173,18 @@ class FifteenPuzzle {
         var targetCol = this.getCol(blankBlock.position) + direction[0];
         var targetRow = this.getRow(blankBlock.position) + direction[1];
         return this.isOutOfRange(targetCol, targetRow) ?
-            <Block>this.getRandomMovableBlock() :
+            <Block>this.getRandomMovableBlock() : // recursive retry
             this.getBlockByColRow(targetCol, targetRow);
     }
 
     // 引数countの回数だけランダムにブロックを動かします。
     private shufflePazzle(count: number, onComplete?: () => void) {
         var suffle = () => {
-            if (count < 0) { count = 1; }
-            if (count -= 1) {
+            count -= 1;
+            if (count > 0) {
                 this.move(this.getRandomMovableBlock(), () => {
                     suffle();
-                    this.onShuffle(count);
+                    this.callbacks.onShuffle(count);
                 }, 0);
             } else { onComplete(); }
         };
@@ -191,7 +192,7 @@ class FifteenPuzzle {
     }
 
     // 色名をランダムに一つ返します。
-    private getRandomColor(toRGB = false) {
+    private getRandomColor(toRGB?: boolean) {
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
@@ -216,6 +217,7 @@ class FifteenPuzzle {
                 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒'
             );
             this.stage.update();
+            this.callbacks.onClear();
         }
     }
 
@@ -289,11 +291,14 @@ var app = {
             $('canvas').parent().css('overflow', 'visible');
             
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas, (n: number) => {
-                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            var puzzle = new FifteenPuzzle(canvas, {
+                onShuffle: (n: number) => $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : ''),
+                onClear: () => $('#adArea').show()
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
+                    (no === '5') ? 'fukuchan05' :
+                    (no === '4') ? 'fukuchan04' :
                     (no === '3') ? 'fukuchan03' :
                     (no === '2') ? 'fukuchan02' : 'fukuchan01'
                 ) + '/')($('#selectedImage').val());
@@ -304,9 +309,12 @@ var app = {
                 ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
+
             $('#btnReset').on('click', () => {
                 reset();
             }).click();
+
+            $('#adArea').hide();
         });
     },
 

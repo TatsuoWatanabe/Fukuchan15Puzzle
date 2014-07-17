@@ -70,9 +70,9 @@ var Block = (function () {
 })();
 
 var FifteenPuzzle = (function () {
-    function FifteenPuzzle(canvas, onShuffle) {
+    function FifteenPuzzle(canvas, callbacks) {
         this.canvas = canvas;
-        this.onShuffle = onShuffle;
+        this.callbacks = callbacks;
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -205,7 +205,7 @@ var FifteenPuzzle = (function () {
             if (count > 0) {
                 _this.move(_this.getRandomMovableBlock(), function () {
                     suffle();
-                    _this.onShuffle(count);
+                    _this.callbacks.onShuffle(count);
                 }, 0);
             } else {
                 onComplete();
@@ -238,6 +238,7 @@ var FifteenPuzzle = (function () {
             this.stage.update();
             alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
             this.stage.update();
+            this.callbacks.onClear();
         }
     };
 
@@ -324,8 +325,13 @@ var app = {
             $('canvas').parent().css('overflow', 'visible');
 
             var canvas = document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas, function (n) {
-                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            var puzzle = new FifteenPuzzle(canvas, {
+                onShuffle: function (n) {
+                    return $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+                },
+                onClear: function () {
+                    return $('#adArea').fadeIn(5000);
+                }
             });
             var reset = function () {
                 var imgDir = (function (no) {
@@ -335,7 +341,9 @@ var app = {
                     return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
                 })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
+                $('#adArea').fadeOut(5000);
             };
+
             $('#btnReset').on('click', function () {
                 reset();
             }).click();

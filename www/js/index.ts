@@ -67,7 +67,7 @@ class FifteenPuzzle {
         [1,  0]  // Right
     ];
 
-    constructor(private canvas: HTMLCanvasElement, private onShuffle?: (n: number) => void) {
+    constructor(private canvas: HTMLCanvasElement, private callbacks: { onShuffle: (n: number) => void; onClear: () => void }) {
         this.stage = new createjs.Stage(this.canvas);
         createjs.Ticker.setFPS(80);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
@@ -183,7 +183,7 @@ class FifteenPuzzle {
             if (count > 0) {
                 this.move(this.getRandomMovableBlock(), () => {
                     suffle();
-                    this.onShuffle(count);
+                    this.callbacks.onShuffle(count);
                 }, 0);
             } else { onComplete(); }
         };
@@ -216,6 +216,7 @@ class FifteenPuzzle {
                 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒'
             );
             this.stage.update();
+            this.callbacks.onClear();
         }
     }
 
@@ -289,8 +290,9 @@ var app = {
             $('canvas').parent().css('overflow', 'visible');
             
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas, (n: number) => {
-                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            var puzzle = new FifteenPuzzle(canvas, {
+                onShuffle: (n: number) => $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : ''),
+                onClear: () => $('#adArea').fadeIn(5000)
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
@@ -305,10 +307,14 @@ var app = {
                     (shortSide >= 600) ? '600.jpg' : '480.jpg'
                 ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
+                $('#adArea').fadeOut(5000);
             };
+
             $('#btnReset').on('click', () => {
                 reset();
             }).click();
+
+            
         });
     },
 

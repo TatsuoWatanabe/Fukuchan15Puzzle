@@ -70,9 +70,9 @@ var Block = (function () {
 })();
 
 var FifteenPuzzle = (function () {
-    function FifteenPuzzle(canvas, onShuffle) {
+    function FifteenPuzzle(canvas, callbacks) {
         this.canvas = canvas;
-        this.onShuffle = onShuffle;
+        this.callbacks = callbacks;
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -151,7 +151,8 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            _this.shufflePazzle(30 * _this.rowCount, function () {
+            // this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            _this.shufflePazzle(1 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -201,13 +202,11 @@ var FifteenPuzzle = (function () {
     FifteenPuzzle.prototype.shufflePazzle = function (count, onComplete) {
         var _this = this;
         var suffle = function () {
-            if (count < 0) {
-                count = 1;
-            }
-            if (count -= 1) {
+            count -= 1;
+            if (count > 0) {
                 _this.move(_this.getRandomMovableBlock(), function () {
                     suffle();
-                    _this.onShuffle(count);
+                    _this.callbacks.onShuffle(count);
                 }, 0);
             } else {
                 onComplete();
@@ -218,7 +217,6 @@ var FifteenPuzzle = (function () {
 
     // 色名をランダムに一つ返します。
     FifteenPuzzle.prototype.getRandomColor = function (toRGB) {
-        if (typeof toRGB === "undefined") { toRGB = false; }
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
@@ -241,6 +239,7 @@ var FifteenPuzzle = (function () {
             this.stage.update();
             alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
             this.stage.update();
+            this.callbacks.onClear();
         }
     };
 
@@ -327,21 +326,29 @@ var app = {
             $('canvas').parent().css('overflow', 'visible');
 
             var canvas = document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas, function (n) {
-                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            var puzzle = new FifteenPuzzle(canvas, {
+                onShuffle: function (n) {
+                    return $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+                },
+                onClear: function () {
+                    return $('#adArea').show();
+                }
             });
             var reset = function () {
                 var imgDir = (function (no) {
-                    return 'img/' + ((no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
+                    return 'img/' + ((no === '5') ? 'fukuchan05' : (no === '4') ? 'fukuchan04' : (no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (shortSide) {
                     return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
                 })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
             };
+
             $('#btnReset').on('click', function () {
                 reset();
             }).click();
+
+            $('#adArea').hide();
         });
     },
     // Bind Event Listeners
