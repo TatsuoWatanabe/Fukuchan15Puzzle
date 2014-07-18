@@ -135,8 +135,7 @@ class FifteenPuzzle {
 
         // 1秒後にシャッフルを開始する
         setTimeout(() => {
-            // this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            this.shufflePazzle(1 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
+            this.shufflePazzle(30 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
         }, 1000);
     }
 
@@ -289,11 +288,11 @@ var app = {
             // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
             // Cure the canvas parent element css property.
             $('canvas').parent().css('overflow', 'visible');
-            
+            var adAreaId = 'adArea';
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas, {
                 onShuffle: (n: number) => $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : ''),
-                onClear: () => $('#adArea').show()
+                onClear: () => $('#' + adAreaId).fadeIn(3000)
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
@@ -308,13 +307,14 @@ var app = {
                     (shortSide >= 600) ? '600.jpg' : '480.jpg'
                 ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
+                $('#' + adAreaId).fadeOut(1500);
             };
 
             $('#btnReset').on('click', () => {
                 reset();
             }).click();
 
-            $('#adArea').hide();
+            
         });
     },
 

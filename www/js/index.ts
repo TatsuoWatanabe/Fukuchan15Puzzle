@@ -288,11 +288,11 @@ var app = {
             // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
             // Cure the canvas parent element css property.
             $('canvas').parent().css('overflow', 'visible');
-            
+            var adAreaId = 'adArea';
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas, {
                 onShuffle: (n: number) => $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : ''),
-                onClear: () => $('#adArea').fadeIn(5000)
+                onClear: () => $('#' + adAreaId).fadeIn(3000)
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
@@ -307,7 +307,7 @@ var app = {
                     (shortSide >= 600) ? '600.jpg' : '480.jpg'
                 ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
-                $('#adArea').fadeOut(5000);
+                $('#' + adAreaId).fadeOut(1500);
             };
 
             $('#btnReset').on('click', () => {
