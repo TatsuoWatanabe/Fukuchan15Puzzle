@@ -296,10 +296,10 @@ var app = {
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
-                    (no === '5') ? 'fukuchan05' :
-                    (no === '4') ? 'fukuchan04' :
-                    (no === '3') ? 'fukuchan03' :
-                    (no === '2') ? 'fukuchan02' : 'fukuchan01'
+                    (no === '5') ? 'picture05' :
+                    (no === '4') ? 'picture04' :
+                    (no === '3') ? 'picture03' :
+                    (no === '2') ? 'picture02' : 'picture01'
                 ) + '/')($('#selectedImage').val());
                 var imgSrc = ((shortSide: number) => imgDir + (
                     (shortSide >= 1200) ? '1200.jpg' :
