@@ -191,7 +191,7 @@ class FifteenPuzzle {
     }
 
     // 色名をランダムに一つ返します。
-    private getRandomColor(toRGB?: boolean) {
+    public getRandomColor(toRGB?: boolean) {
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
@@ -296,10 +296,10 @@ var app = {
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
-                    (no === '5') ? 'fukuchan05' :
-                    (no === '4') ? 'fukuchan04' :
-                    (no === '3') ? 'fukuchan03' :
-                    (no === '2') ? 'fukuchan02' : 'fukuchan01'
+                    (no === '5') ? 'picture05' :
+                    (no === '4') ? 'picture04' :
+                    (no === '3') ? 'picture03' :
+                    (no === '2') ? 'picture02' : 'picture01'
                 ) + '/')($('#selectedImage').val());
                 var imgSrc = ((shortSide: number) => imgDir + (
                     (shortSide >= 1200) ? '1200.jpg' :
@@ -314,7 +314,7 @@ var app = {
                 reset();
             }).click();
 
-            
+            $('div.ui-page').css('background-color', puzzle.getRandomColor());
         });
     },
 

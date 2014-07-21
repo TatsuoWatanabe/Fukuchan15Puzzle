@@ -70,9 +70,9 @@ var Block = (function () {
 })();
 
 var FifteenPuzzle = (function () {
-    function FifteenPuzzle(canvas, onShuffle) {
+    function FifteenPuzzle(canvas, callbacks) {
         this.canvas = canvas;
-        this.onShuffle = onShuffle;
+        this.callbacks = callbacks;
         this.isLocked = false;
         this.UDLR = [
             [0, -1],
@@ -80,6 +80,9 @@ var FifteenPuzzle = (function () {
             [-1, 0],
             [1, 0]
         ];
+        this.stage = new createjs.Stage(this.canvas);
+        createjs.Ticker.setFPS(80);
+        createjs.Ticker.addEventListener('tick', this.stage);
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
         moment.lang('ja');
@@ -87,7 +90,6 @@ var FifteenPuzzle = (function () {
     // 15パズルを開始します。
     FifteenPuzzle.prototype.initGame = function (imgSrc, rowCount) {
         var _this = this;
-        if (typeof rowCount === "undefined") { rowCount = 4; }
         if (this.isLocked) {
             return;
         }
@@ -109,14 +111,11 @@ var FifteenPuzzle = (function () {
         this.blockHeight = this.image.height / this.rowCount;
         this.canvas.width = this.image.width;
         this.canvas.height = this.image.height;
-        this.stage = new createjs.Stage(this.canvas);
+        this.stage.removeAllChildren();
         this.stage.clear();
 
         // set background to stage
         this.stage.addChild(new createjs.Shape((new createjs.Graphics()).beginFill(this.bgColor).drawRect(0, 0, this.canvas.width, this.canvas.height)));
-        createjs.Ticker.setFPS(60);
-        createjs.Ticker.addEventListener('tick', this.stage);
-
         this.isLocked = true;
 
         // パズルのブロックを作成
@@ -127,7 +126,7 @@ var FifteenPuzzle = (function () {
             var dividedImageDataURL = (function (img, w, h) {
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
-                var lineWidth = 0.5;
+                var lineWidth = 1.0;
                 var fontSize = Math.floor(w / 1.3);
                 var labelText = String(i + 1);
                 canvas.width = w;
@@ -152,8 +151,7 @@ var FifteenPuzzle = (function () {
 
         // 1秒後にシャッフルを開始する
         setTimeout(function () {
-            // this.shufflePazzle(50 * this.rowCount, () => { this.isLocked = false; /*ゲーム開始*/ });
-            _this.shufflePazzle(1 * _this.rowCount, function () {
+            _this.shufflePazzle(30 * _this.rowCount, function () {
                 _this.isLocked = false; /*ゲーム開始*/ 
             });
         }, 1000);
@@ -203,13 +201,11 @@ var FifteenPuzzle = (function () {
     FifteenPuzzle.prototype.shufflePazzle = function (count, onComplete) {
         var _this = this;
         var suffle = function () {
-            if (count < 0) {
-                count = 1;
-            }
-            if (count -= 1) {
+            count -= 1;
+            if (count > 0) {
                 _this.move(_this.getRandomMovableBlock(), function () {
                     suffle();
-                    _this.onShuffle(count);
+                    _this.callbacks.onShuffle(count);
                 }, 0);
             } else {
                 onComplete();
@@ -220,7 +216,6 @@ var FifteenPuzzle = (function () {
 
     // 色名をランダムに一つ返します。
     FifteenPuzzle.prototype.getRandomColor = function (toRGB) {
-        if (typeof toRGB === "undefined") { toRGB = false; }
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
@@ -237,19 +232,19 @@ var FifteenPuzzle = (function () {
             var min = m.diff(this.initMoment, 'minutes');
             var sec = m.diff(this.initMoment, 'seconds');
             this.getBlankBlock().isBlank = false;
-            createjs.Ticker.removeEventListener('tick', this.stage);
             this.stage.removeAllChildren();
             this.stage.clear();
             this.stage.addChild(new createjs.Bitmap(this.image));
             this.stage.update();
             alert('完成！\n\n' + 'かかった手数: ' + this.moveCount + '手\n' + 'かかった時間: ' + min + '分' + ('0' + (sec - min * 60)).slice(-2) + '秒');
             this.stage.update();
+            this.callbacks.onClear();
         }
     };
 
     // 指定したブロックNoのブロックを動かします。
     FifteenPuzzle.prototype.move = function (sourceBlock, callback, duration) {
-        if (typeof duration === "undefined") { duration = 200; }
+        if (typeof duration === "undefined") { duration = 150; }
         var blankBlock = this.getBlankBlock();
 
         // move the block bitmap
@@ -323,19 +318,32 @@ var app = {
     initialize: function () {
         this.bindEvents();
         $(function () {
+            // Canvas Bug at Android 4.0 to 4.1
+            // https://code.google.com/p/android/issues/detail?id=41312
+            // Html5 Canvas drawing issue - duplicated drawing - when parent has overflow:hidden
+            // Cure the canvas parent element css property.
+            $('canvas').parent().css('overflow', 'visible');
+            var adAreaId = 'adArea';
             var canvas = document.getElementById('canvas');
-            var puzzle = new FifteenPuzzle(canvas, function (n) {
-                $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+            var puzzle = new FifteenPuzzle(canvas, {
+                onShuffle: function (n) {
+                    return $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
+                },
+                onClear: function () {
+                    return $('#' + adAreaId).fadeIn(3000);
+                }
             });
             var reset = function () {
                 var imgDir = (function (no) {
-                    return 'img/' + ((no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
+                    return 'img/' + ((no === '5') ? 'picture05' : (no === '4') ? 'picture04' : (no === '3') ? 'picture03' : (no === '2') ? 'picture02' : 'picture01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (shortSide) {
                     return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
                 })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
+                $('#' + adAreaId).fadeOut(1500);
             };
+
             $('#btnReset').on('click', function () {
                 reset();
             }).click();

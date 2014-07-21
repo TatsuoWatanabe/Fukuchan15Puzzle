@@ -76,43 +76,67 @@
         <Content Include="www\css\index.css" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="www\img\fukuchan01\1200.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan01\480.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan01\600.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan01\800.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan02\1200.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan02\480.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan02\600.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan02\800.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan03\1200.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan03\480.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan03\600.jpg" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="www\img\fukuchan03\800.jpg" />
-    </ItemGroup>
-    <ItemGroup>
         <Content Include="www\img\logo.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture01\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture01\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture01\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture01\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture02\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture02\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture02\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture02\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture03\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture03\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture03\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture03\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture04\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture04\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture04\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture04\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture05\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture05\480.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture05\600.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture05\800.jpg" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\index.html" />

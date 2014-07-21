@@ -21,6 +21,8 @@
     <Content Include="plugins\android.json" />
     <Content Include="web.config" />
     <Content Include="www\css\index.css" />
+    <Content Include="www\img\icon\icon.png" />
+    <Content Include="www\img\icon\icon.svg" />
     <Content Include="www\img\picture01\1200.jpg" />
     <Content Include="www\img\picture01\480.jpg" />
     <Content Include="www\img\picture01\600.jpg" />
@@ -42,6 +44,8 @@
     <Content Include="www\img\picture05\600.jpg" />
     <Content Include="www\img\picture05\800.jpg" />
     <Content Include="www\img\logo.png" />
+    <Content Include="www\img\splash\splash.png" />
+    <Content Include="www\img\splash\splash.svg" />
     <Content Include="www\index.html" />
     <Content Include="www\js\index.js" />
     <Content Include="www\js\lib\createjs\createjs\events\Event.js" />

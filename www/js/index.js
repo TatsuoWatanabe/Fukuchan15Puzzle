@@ -347,6 +347,8 @@ var app = {
             $('#btnReset').on('click', function () {
                 reset();
             }).click();
+
+            $('div.ui-page').css('background-color', puzzle.getRandomColor());
         });
     },
     // Bind Event Listeners

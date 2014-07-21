@@ -335,7 +335,7 @@ var app = {
             });
             var reset = function () {
                 var imgDir = (function (no) {
-                    return 'img/' + ((no === '5') ? 'fukuchan05' : (no === '4') ? 'fukuchan04' : (no === '3') ? 'fukuchan03' : (no === '2') ? 'fukuchan02' : 'fukuchan01') + '/';
+                    return 'img/' + ((no === '5') ? 'picture05' : (no === '4') ? 'picture04' : (no === '3') ? 'picture03' : (no === '2') ? 'picture02' : 'picture01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (shortSide) {
                     return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
@@ -347,6 +347,8 @@ var app = {
             $('#btnReset').on('click', function () {
                 reset();
             }).click();
+
+            $('div.ui-page').css('background-color', puzzle.getRandomColor());
         });
     },
     // Bind Event Listeners

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-    <Identity Name="jp.tatsuo.watanabe.fukuchan15puzzle" Publisher="CN=$username$" Version="0.0.1.0" />
+    <Identity Name="com.tatsuowatanabe.fukuchan15puzzle" Publisher="CN=$username$" Version="1.0.0.0" />
     <Properties>
         <DisplayName>Fukuchan15Puzzle</DisplayName>
-        <PublisherDisplayName>Apache Cordova Team</PublisherDisplayName>
+        <PublisherDisplayName>TatsuoWatanabe</PublisherDisplayName>
         <Logo>images\storelogo.png</Logo>
     </Properties>
     <Prerequisites>
@@ -14,7 +14,7 @@
         <Resource Language="x-generate" />
     </Resources>
     <Applications>
-        <Application Id="jp.tatsuo.watanabe.fukuchan15puzzle" StartPage="www/index.html">
+        <Application Id="com.tatsuowatanabe.fukuchan15puzzle" StartPage="www/index.html">
             <m2:VisualElements BackgroundColor="#464646" Description="CordovaApp" DisplayName="Fukuchan15Puzzle" ForegroundText="light" Square150x150Logo="images\logo.png" Square30x30Logo="images\smalllogo.png">
                 <m2:DefaultTile>
                     <m2:ShowNameOnTiles>
