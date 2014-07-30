@@ -76,6 +76,12 @@
         <Content Include="www\css\index.css" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\icon\icon.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\icon\icon.svg" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\img\logo.png" />
     </ItemGroup>
     <ItemGroup>
@@ -137,6 +143,12 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\img\picture05\800.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\splash\splash.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\splash\splash.svg" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\index.html" />

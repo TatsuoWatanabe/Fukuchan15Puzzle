@@ -10,4 +10,5 @@
     <content src="index.html" />
     <access origin="*" />
     <preference name="Orientation" value="portrait" />
+    <preference name="splashscreen" value="splash" />
 </widget>

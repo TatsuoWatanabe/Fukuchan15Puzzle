@@ -338,7 +338,7 @@ var app = {
                     return 'img/' + ((no === '5') ? 'picture05' : (no === '4') ? 'picture04' : (no === '3') ? 'picture03' : (no === '2') ? 'picture02' : 'picture01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (shortSide) {
-                    return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
+                    return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : (shortSide >= 480) ? '480.jpg' : (shortSide >= 320) ? '320.jpg' : '320.jpg');
                 })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
                 $('#' + adAreaId).fadeOut(1500);

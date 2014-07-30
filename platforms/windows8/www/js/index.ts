@@ -191,7 +191,7 @@ class FifteenPuzzle {
     }
 
     // 色名をランダムに一つ返します。
-    private getRandomColor(toRGB?: boolean) {
+    public getRandomColor(toRGB?: boolean) {
         var colors = ['Blue', 'Green', 'Saddlebrown', 'DeepSkyBlue', 'SeaGreen', 'Pink', 'Silver', 'FireBrick', 'Linen'];
         var colorName = colors[this.rnd(colors.length)];
         var rgbColor = new RGBColor(colorName);
@@ -314,7 +314,7 @@ var app = {
                 reset();
             }).click();
 
-            
+            $('div.ui-page').css('background-color', puzzle.getRandomColor());
         });
     },
 

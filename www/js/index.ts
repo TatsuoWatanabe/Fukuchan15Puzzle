@@ -304,7 +304,9 @@ var app = {
                 var imgSrc = ((shortSide: number) => imgDir + (
                     (shortSide >= 1200) ? '1200.jpg' :
                     (shortSide >= 800) ? '800.jpg' :
-                    (shortSide >= 600) ? '600.jpg' : '480.jpg'
+                    (shortSide >= 600) ? '600.jpg' :
+                    (shortSide >= 480) ? '480.jpg' :
+                    (shortSide >= 320) ? '320.jpg' : '320.jpg'
                 ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
                 $('#' + adAreaId).fadeOut(1500);
