@@ -270,12 +270,6 @@ class FifteenPuzzle {
 
 // --- for Windows app ---
 declare var Windows: any;
-if (!window.alert && Windows && Windows.UI) {
-    window.alert = (message: string) => {
-        var msgBox = new Windows.UI.Popups.MessageDialog(message);
-        msgBox.showAsync();
-    }
-}
 // -----------------------
 
 var app = {
@@ -332,7 +326,24 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function () { },
+    onDeviceReady: function () {
+        if (!window.alert && Windows && Windows.UI) {
+            window.alert = (message) => {
+                var msgBox = new Windows.UI.Popups.MessageDialog(message);
+                msgBox.showAsync();
+            };
+        } else if (navigator.notification && navigator.notification.alert) {
+            // https://github.com/apache/cordova-plugin-dialogs
+            window.alert = (message) => {
+                navigator.notification.alert(
+                    message,       // message
+                    function() {}, // callback
+                    'OK!',       // title
+                    'OK'     // buttonName
+                );
+            };
+        }
+    },
 
     // Update DOM on a Received Event
     receivedEvent: function () { }
