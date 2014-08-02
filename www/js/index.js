@@ -23,6 +23,7 @@
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
 /// <reference path="typings/rgbcolor.d.ts" />
+/// <reference path="typings/cordova/plugins/dialogs.d.ts" />
 var Block = (function () {
     function Block(_position, bitmap) {
         this._position = _position;
@@ -305,12 +306,6 @@ var FifteenPuzzle = (function () {
     return FifteenPuzzle;
 })();
 
-if (!window.alert && Windows && Windows.UI) {
-    window.alert = function (message) {
-        var msgBox = new Windows.UI.Popups.MessageDialog(message);
-        msgBox.showAsync();
-    };
-}
 
 // -----------------------
 var app = {
@@ -363,6 +358,18 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
+        if (!window.alert && Windows && Windows.UI) {
+            window.alert = function (message) {
+                var msgBox = new Windows.UI.Popups.MessageDialog(message);
+                msgBox.showAsync();
+            };
+        } else if (navigator.notification && navigator.notification.alert) {
+            // https://github.com/apache/cordova-plugin-dialogs
+            window.alert = function (message) {
+                navigator.notification.alert(message, function () {
+                }, 'OK!', 'OK');
+            };
+        }
     },
     // Update DOM on a Received Event
     receivedEvent: function () {

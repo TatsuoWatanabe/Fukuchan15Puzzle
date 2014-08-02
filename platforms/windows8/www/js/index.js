@@ -23,6 +23,7 @@
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
 /// <reference path="typings/rgbcolor.d.ts" />
+/// <reference path="typings/cordova/plugins/dialogs.d.ts" />
 var Block = (function () {
     function Block(_position, bitmap) {
         this._position = _position;
@@ -305,12 +306,6 @@ var FifteenPuzzle = (function () {
     return FifteenPuzzle;
 })();
 
-if (!window.alert && Windows && Windows.UI) {
-    window.alert = function (message) {
-        var msgBox = new Windows.UI.Popups.MessageDialog(message);
-        msgBox.showAsync();
-    };
-}
 
 // -----------------------
 var app = {
@@ -338,7 +333,7 @@ var app = {
                     return 'img/' + ((no === '5') ? 'picture05' : (no === '4') ? 'picture04' : (no === '3') ? 'picture03' : (no === '2') ? 'picture02' : 'picture01') + '/';
                 })($('#selectedImage').val());
                 var imgSrc = (function (shortSide) {
-                    return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : '480.jpg');
+                    return imgDir + ((shortSide >= 1200) ? '1200.jpg' : (shortSide >= 800) ? '800.jpg' : (shortSide >= 600) ? '600.jpg' : (shortSide >= 480) ? '480.jpg' : (shortSide >= 320) ? '320.jpg' : '320.jpg');
                 })(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
                 $('#' + adAreaId).fadeOut(1500);
@@ -363,6 +358,18 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
+        if (!window.alert && Windows && Windows.UI) {
+            window.alert = function (message) {
+                var msgBox = new Windows.UI.Popups.MessageDialog(message);
+                msgBox.showAsync();
+            };
+        } else if (navigator.notification && navigator.notification.alert) {
+            // https://github.com/apache/cordova-plugin-dialogs
+            window.alert = function (message) {
+                navigator.notification.alert(message, function () {
+                }, 'OK!', 'OK');
+            };
+        }
     },
     // Update DOM on a Received Event
     receivedEvent: function () {

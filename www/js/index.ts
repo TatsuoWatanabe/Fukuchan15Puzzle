@@ -23,6 +23,7 @@
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
 /// <reference path="typings/rgbcolor.d.ts" />
+/// <reference path="typings/cordova/plugins/dialogs.d.ts" />
 class Block {
     constructor(private _position: number, public bitmap: createjs.Bitmap) {
         this.imgPosition = _position;

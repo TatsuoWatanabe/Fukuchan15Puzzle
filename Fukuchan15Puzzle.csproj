@@ -282,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="www\js\index.ts" />
+    <TypeScriptCompile Include="www\js\typings\cordova\plugins\Dialogs.d.ts" />
     <TypeScriptCompile Include="www\js\typings\createjs\createjs-lib.d.ts" />
     <TypeScriptCompile Include="www\js\typings\createjs\createjs.d.ts" />
     <TypeScriptCompile Include="www\js\typings\createjs\easeljs.d.ts" />

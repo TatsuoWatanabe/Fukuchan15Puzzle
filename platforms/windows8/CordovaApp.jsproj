@@ -88,6 +88,9 @@
         <Content Include="www\img\picture01\1200.jpg" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\picture01\320.jpg" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\img\picture01\480.jpg" />
     </ItemGroup>
     <ItemGroup>
@@ -98,6 +101,9 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\img\picture02\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture02\320.jpg" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\img\picture02\480.jpg" />
@@ -112,6 +118,9 @@
         <Content Include="www\img\picture03\1200.jpg" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\picture03\320.jpg" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\img\picture03\480.jpg" />
     </ItemGroup>
     <ItemGroup>
@@ -124,6 +133,9 @@
         <Content Include="www\img\picture04\1200.jpg" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\picture04\320.jpg" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\img\picture04\480.jpg" />
     </ItemGroup>
     <ItemGroup>
@@ -134,6 +146,9 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\img\picture05\1200.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\img\picture05\320.jpg" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\img\picture05\480.jpg" />
@@ -826,6 +841,9 @@
         <Content Include="www\js\lib\rgbcolor.js" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\js\typings\cordova\plugins\Dialogs.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\js\typings\createjs\createjs-lib.d.ts" />
     </ItemGroup>
     <ItemGroup>
@@ -851,5 +869,11 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="www\js\typings\rgbcolor.d.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\plugins\org.apache.cordova.dialogs\src\windows8\NotificationProxy.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="www\plugins\org.apache.cordova.dialogs\www\notification.js" />
     </ItemGroup>
 </Project>
