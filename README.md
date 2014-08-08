@@ -1,7 +1,7 @@
 Fukuchan15Puzzle
 ================
 
-Apach cordova HTML5 Application written by TypeScript. With createjs.
+Apach cordova HTML5 Application written in TypeScript. With createjs.
 
 You can download this product freely.
 
