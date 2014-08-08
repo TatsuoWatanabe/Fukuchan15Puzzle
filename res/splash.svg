@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1280"
+   height="2272"
+   id="svg5905"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="splash.svg"
+   inkscape:export-filename="C:\Users\tatsuo\Documents\Projects\Fukuchan15Puzzle\res\splash1536x2048.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#66f566"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.22"
+     inkscape:cx="339.62728"
+     inkscape:cy="1089.7598"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-grids="true"
+     inkscape:window-width="1440"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid6745"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs5907" />
+  <metadata
+     id="metadata5910">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-885.0866)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="レイヤー 1">
+    <g
+       id="g3843"
+       transform="translate(-88.636364,-150)">
+      <rect
+         rx="123.06974"
+         style="fill:#66f566;fill-opacity:1;stroke:none"
+         id="rect5913"
+         width="1002.8571"
+         height="1008.5714"
+         x="244.93506"
+         y="1612.4921"
+         ry="123.06974" />
+      <rect
+         rx="12.857142"
+         ry="12.857142"
+         y="1675.3492"
+         x="299.22079"
+         height="885.71429"
+         width="894.28571"
+         id="rect6735"
+         style="fill:none;stroke:#ffffff;stroke-width:30.39999962;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path6737"
+         d="m 581.81819,1677.5894 0,874.5455 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:29.92639351;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <use
+         height="1024"
+         width="1024"
+         transform="translate(311.36364,-2.7272727e-5)"
+         id="use6739"
+         xlink:href="#path6737"
+         y="0"
+         x="0" />
+      <use
+         height="1024"
+         width="1024"
+         transform="matrix(0,1,-1,0,2855.7711,1076.2258)"
+         id="use6741"
+         xlink:href="#use6739"
+         y="0"
+         x="0" />
+      <use
+         height="1024"
+         width="1024"
+         transform="translate(6.8181809,297.72727)"
+         id="use6743"
+         xlink:href="#use6741"
+         y="0"
+         x="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path6747"
+         d="m 908.27661,2413.9531 0,-130.6818 134.09089,0 134.0909,0 0,130.6818 0,130.6818 -134.0909,0 -134.09089,0 0,-130.6818 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:67.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         transform="scale(1.0950389,0.91320956)"
+         sodipodi:linespacing="125%"
+         id="text6749"
+         y="2114.7966"
+         x="322.30316"
+         style="font-size:33.60902786px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:336.09030151px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI"
+           y="2114.7966"
+           x="322.30316"
+           id="tspan6751"
+           sodipodi:role="line">F</tspan></text>
+    </g>
+  </g>
+</svg>
