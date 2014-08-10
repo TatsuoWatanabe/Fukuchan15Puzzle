@@ -41,5 +41,8 @@
         <!-- iPad Spotlight and Settings Icon -->
         <icon src="res/ios/icon-50.png" width="50" height="50" />
         <icon src="res/ios/icon-50@2x.png" width="100" height="100" />
+        <!-- iTunes Artwork Icon -->
+        <icon src="res/ios/iTunesArtwork.png" width="512" height="512" />
+        <icon src="res/ios/iTunesArtwork@2x.png" width="1024" height="1024" />
      </platform>
 </widget>
