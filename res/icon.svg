@@ -56,7 +56,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -76,14 +76,15 @@
     <rect
        style="fill:none;stroke:#ffffff;stroke-width:30.39999962;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect6735"
-       width="894.28571"
-       height="885.71429"
-       x="62.857143"
-       y="98.076469"
-       ry="12.857142" />
+       width="862.297"
+       height="856.02991"
+       x="74.335693"
+       y="105.00233"
+       ry="12.857142"
+       rx="12.857142" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:29.92639351;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 345.45455,100.31671 0,874.54549 z"
+       d="m 346.82456,107.16748 0,845.23538 z"
        id="path6737"
        inkscape:connector-curvature="0" />
     <use
@@ -91,7 +92,7 @@
        y="0"
        xlink:href="#path6737"
        id="use6739"
-       transform="translate(311.36364,2.727279e-8)"
+       transform="translate(300.22613,2.7272748e-8)"
        width="1024"
        height="1024" />
     <use
@@ -99,7 +100,7 @@
        y="0"
        xlink:href="#use6739"
        id="use6741"
-       transform="matrix(0,1,-1,0,1042.1348,-264.68328)"
+       transform="matrix(0,1.0023391,-0.99766635,0,1028.7734,-259.35871)"
        width="1024"
        height="1024" />
     <use
@@ -107,27 +108,26 @@
        y="0"
        xlink:href="#use6741"
        id="use6743"
-       transform="translate(6.8181814,297.72727)"
+       transform="translate(6.5742944,287.74904)"
        width="1024"
        height="1024" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:67.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 671.91294,808.31818 0,-130.68182 134.09091,0 134.09091,0 0,130.68182 0,130.68182 -134.09091,0 -134.09091,0 0,-130.68182 z"
+       d="m 686.60549,817.7158 0,-111.52934 109.97629,0 109.97629,0 0,111.52934 0,111.52933 -109.97629,0 -109.97629,0 0,-111.52933 z"
        id="path6747"
-       inkscape:connector-curvature="0"
-       transform="translate(0,28.362183)" />
+       inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:33.60902786px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
-       x="106.45366"
-       y="387.62164"
+       style="font-size:32.44470978px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+       x="115.31602"
+       y="385.36365"
        id="text6749"
        sodipodi:linespacing="125%"
-       transform="scale(1.0950389,0.91320956)"><tspan
+       transform="scale(1.0937604,0.91427701)"><tspan
          sodipodi:role="line"
          id="tspan6751"
-         x="106.45366"
-         y="387.62164"
-         style="font-size:336.09030151px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">F</tspan></text>
+         x="115.31602"
+         y="385.36365"
+         style="font-size:324.44711304px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:19.25927162;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">F</tspan></text>
   </g>
 </svg>
