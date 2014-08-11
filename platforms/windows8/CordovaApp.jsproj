@@ -82,6 +82,9 @@
         <Content Include="www\img\icon\icon.svg" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\icon\splash.png" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\img\logo.png" />
     </ItemGroup>
     <ItemGroup>

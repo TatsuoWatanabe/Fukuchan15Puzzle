@@ -23,7 +23,7 @@
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
 /// <reference path="typings/rgbcolor.d.ts" />
-/// <reference path="typings/cordova/plugins/dialogs.d.ts" />
+/// <reference path="typings/cordova/plugins/Dialogs.d.ts" />
 var Block = (function () {
     function Block(_position, bitmap) {
         this._position = _position;
@@ -325,7 +325,9 @@ var app = {
                     return $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : '');
                 },
                 onClear: function () {
-                    return $('#' + adAreaId).fadeIn(3000);
+                    if (!app.isWindows()) {
+                        $('#' + adAreaId).fadeIn(3000);
+                    }
                 }
             });
             var reset = function () {
@@ -358,7 +360,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        if (!window.alert && Windows && Windows.UI) {
+        if (app.isWindows()) {
             window.alert = function (message) {
                 var msgBox = new Windows.UI.Popups.MessageDialog(message);
                 msgBox.showAsync();
@@ -373,6 +375,10 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function () {
+    },
+    // if platform is Windows return true.
+    isWindows: function () {
+        return (Windows && Windows.UI) ? true : false;
     }
 };
 //# sourceMappingURL=index.js.map

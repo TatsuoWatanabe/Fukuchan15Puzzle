@@ -23,7 +23,7 @@
 /// <reference path="typings/moment.d.ts" />
 /// <reference path="typings/createjs/createjs.d.ts" />
 /// <reference path="typings/rgbcolor.d.ts" />
-/// <reference path="typings/cordova/plugins/dialogs.d.ts" />
+/// <reference path="typings/cordova/plugins/Dialogs.d.ts" />
 class Block {
     constructor(private _position: number, public bitmap: createjs.Bitmap) {
         this.imgPosition = _position;
@@ -287,7 +287,11 @@ var app = {
             var canvas = <HTMLCanvasElement>document.getElementById('canvas');
             var puzzle = new FifteenPuzzle(canvas, {
                 onShuffle: (n: number) => $('#status').text(n > 5 ? n + ' Shuffling ' + '..........'.slice(n % 10) : ''),
-                onClear: () => $('#' + adAreaId).fadeIn(3000)
+                onClear: () => {
+                    if (!app.isWindows()) {
+                        $('#' + adAreaId).fadeIn(3000);
+                    }
+                }
             });
             var reset = () => {
                 var imgDir = ((no: string) => 'img/' + (
@@ -295,14 +299,14 @@ var app = {
                     (no === '4') ? 'picture04' :
                     (no === '3') ? 'picture03' :
                     (no === '2') ? 'picture02' : 'picture01'
-                ) + '/')($('#selectedImage').val());
+                    ) + '/')($('#selectedImage').val());
                 var imgSrc = ((shortSide: number) => imgDir + (
                     (shortSide >= 1200) ? '1200.jpg' :
                     (shortSide >= 800) ? '800.jpg' :
                     (shortSide >= 600) ? '600.jpg' :
                     (shortSide >= 480) ? '480.jpg' :
                     (shortSide >= 320) ? '320.jpg' : '320.jpg'
-                ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
+                    ))(window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth);
                 puzzle.initGame(imgSrc, $('#puzzleSize').val());
                 $('#' + adAreaId).fadeOut(1500);
             };
@@ -328,7 +332,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        if (!window.alert && Windows && Windows.UI) {
+        if (app.isWindows()) {
             window.alert = (message) => {
                 var msgBox = new Windows.UI.Popups.MessageDialog(message);
                 msgBox.showAsync();
@@ -337,15 +341,18 @@ var app = {
             // https://github.com/apache/cordova-plugin-dialogs
             window.alert = (message) => {
                 navigator.notification.alert(
-                    message,       // message
-                    function() {}, // callback
-                    'OK!',       // title
-                    'OK'     // buttonName
+                    message,         // message
+                    function () { }, // callback
+                    'OK!',           // title
+                    'OK'             // buttonName
                 );
             };
         }
     },
 
     // Update DOM on a Received Event
-    receivedEvent: function () { }
+    receivedEvent: function () { },
+
+    // if platform is Windows return true.
+    isWindows: () => (Windows && Windows.UI) ? true : false
 };
