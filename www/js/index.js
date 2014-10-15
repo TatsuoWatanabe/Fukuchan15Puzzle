@@ -82,7 +82,7 @@ var FifteenPuzzle = (function () {
             [1, 0]
         ];
         this.stage = new createjs.Stage(this.canvas);
-        createjs.Ticker.setFPS(80);
+        createjs.Ticker.setFPS(60);
         createjs.Ticker.addEventListener('tick', this.stage);
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
@@ -378,7 +378,11 @@ var app = {
     },
     // if platform is Windows return true.
     isWindows: function () {
-        return (Windows && Windows.UI) ? true : false;
+        try  {
+            return (Windows && Windows.UI) ? true : false;
+        } catch (e) {
+            return false;
+        }
     }
 };
 //# sourceMappingURL=index.js.map
