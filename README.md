@@ -13,7 +13,7 @@ https://play.google.com/store/apps/details?id=com.tatsuowatanabe.fukuchan15puzzl
 #### Windows Store
 http://apps.microsoft.com/windows/ja-jp/app/fukuchan15puzzle/ab7da8bf-f559-4d44-8d33-40d5f149811e
 
-#### Web Page
+#### Web App
 http://tatsuowatanabe.github.io/Fukuchan15Puzzle/www/
 
 ================
