@@ -70,7 +70,7 @@ class FifteenPuzzle {
 
     constructor(private canvas: HTMLCanvasElement, private callbacks: { onShuffle: (n: number) => void; onClear: () => void }) {
         this.stage = new createjs.Stage(this.canvas);
-        createjs.Ticker.setFPS(80);
+        createjs.Ticker.setFPS(60);
         createjs.Ticker.addEventListener('tick', <any>this.stage);
         this.bgColor = this.getRandomColor();
         canvas.onmousedown = this.getMouseHandlerFunction();
