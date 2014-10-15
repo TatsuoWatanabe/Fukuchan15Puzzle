@@ -378,7 +378,11 @@ var app = {
     },
     // if platform is Windows return true.
     isWindows: function () {
-        return (Windows && Windows.UI) ? true : false;
+        try  {
+            return (Windows && Windows.UI) ? true : false;
+        } catch (e) {
+            return false;
+        }
     }
 };
 //# sourceMappingURL=index.js.map

@@ -354,5 +354,11 @@ var app = {
     receivedEvent: function () { },
 
     // if platform is Windows return true.
-    isWindows: () => (Windows && Windows.UI) ? true : false
+    isWindows: () => {
+        try {
+            return (Windows && Windows.UI) ? true : false;
+        } catch(e) {
+            return false;
+        }
+    }
 };
